@@ -6,13 +6,10 @@ const zip = new JSZip()
 const target = `./releases/${require('../package').version}.zip`
 
 const addFile = async () => {
-  for (const filename of await glob('src/**')) {
-    const file = await fs.readFile(filename).catch(() => {})
-    if (!file) {
-      continue
-    }
-
-    zip.file(filename, file)
+  for (const filename of await glob('src/**', {
+    nodir: true
+  })) {
+    zip.file(filename, await fs.readFile(filename))
   }
   return zip
 }
