@@ -1,4 +1,5 @@
 const fs = require('mz/fs')
+const path = require('path')
 const JSZip = require('node-zip')
 const glob = require('glob-promise')
 
@@ -6,10 +7,12 @@ const zip = new JSZip()
 const target = `./releases/${require('../package').version}.zip`
 
 const addFile = async () => {
-  for (const filename of await glob('src/**', {
+  for (let file of await glob('releases/src/**', {
     nodir: true
   })) {
-    zip.file(filename, await fs.readFile(filename))
+    const [, ...filename] = file.split(path.sep)
+
+    zip.file(path.join(...filename), await fs.readFile(file))
   }
   return zip
 }
