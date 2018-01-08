@@ -48,7 +48,7 @@ document.querySelector('#tweet-box').addEventListener(
 document.querySelector('#post').addEventListener('click', post)
 
 function post() {
-  chrome.storage.local.get(['users'], ({ users }) => {
+  chrome.storage.local.get(['users'], async ({ users }) => {
     const { consumer_key, consumer_secret } = require('../../config')
     const { access_token, access_token_secret } = users[document.querySelector('#userid').value]
 
@@ -59,27 +59,23 @@ function post() {
       access_token_secret,
     })
 
-    Promise.resolve().then(() => {
-      return Promise.all(
-        [...document.querySelectorAll('.post-image')].map(
-          child => tw.post('media/upload.json', {
-            media_data: child.src.split(',')[1]
-          }).then(res => res.media_id_string)
-        )
+    const media = await Promise.all(
+      [...document.querySelectorAll('.post-image')].map(
+        child => tw.post('media/upload.json', {
+          media_data: child.src.split(',')[1],
+        })
       )
-    }).then(medias => {
-      tw.post('statuses/update', {
-        status: document.querySelector('#tweet-box').value,
-        media_ids: medias.join(','),
-      }).catch(err => {
-        console.log(err)
-      })
-    }).then(() => {
-      while (document.querySelector('#image-list').firstChild) {
-        document.querySelector('#image-list').removeChild(document.querySelector('#image-list').firstChild)
-      }
-      document.querySelector('#tweet-box').value = ''
+    )
+
+    await tw.post('statuses/update', {
+      status: document.querySelector('#tweet-box').value,
+      media_ids: media.map(res => res.media_id_string).join(','),
     })
+
+    while (document.querySelector('#image-list').firstChild) {
+      document.querySelector('#image-list').removeChild(document.querySelector('#image-list').firstChild)
+    }
+    document.querySelector('#tweet-box').value = ''
   })
 }
 
