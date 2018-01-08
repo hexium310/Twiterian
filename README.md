@@ -1,15 +1,16 @@
 # Twiterian
 
-Twiterian is chrome extension for tweet with images on Google Chrome.
+Twiterian is a Chrome extension that helps you tweet with images on Google Chrome.
 
 ## Install
 
 ## Usage
 
-Open Twiterian's options, click plus button to log in to Twitter.  
+Open Twiterian's options, click plus button, and log in to Twitter.  
 Let's tweet from Twiterian's icon.  
 
-Can tweet with images to paste the image in textarea and click post button or type Ctrl (Mac: Command) + Enter.
+Tweets can include images from clipboard on the textarea.
+Click **Post** or hit <kbd>Ctrl</kbd> (Mac: <kbd>Command</kbd>) + <kbd>Enter</kbd>.
 
 ## LICENSE
 MIT
