@@ -1,0 +1,6 @@
+.cache/
+.idea/
+dist/
+releases/
+node_modules/
+config.json

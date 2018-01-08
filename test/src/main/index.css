@@ -1,0 +1,47 @@
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0;
+}
+
+li {
+  width: 23%;
+}
+
+img {
+  max-width: 100%;
+}
+
+span {
+  font-weight: bold;
+}
+
+.user {
+  margin: 5px;
+}
+
+.tweet-box {
+  resize: none;
+  width: 350px;
+  height: 100px;
+}
+
+.post {
+  float: right;
+}
+
+.tweet-main {
+  display: flex;
+  align-items: flex-end;
+}
+
+.count {
+  width: 50px;
+  text-align: center;
+  color: black;
+}
+
+.invalid {
+  color: red;
+}
