@@ -65,13 +65,9 @@ chrome.storage.local.get(['users'], ({ users }) => {
 
         chrome.storage.local.get('users', ({ users }) => {
           delete users[userid]
-          // chrome.storage.local.set({users})
+          chrome.storage.local.set({users})
         })
       }
     )
   }
 })
-
-// chrome.storage.local.get({users: {}, count: 0}, ({ users, count: c }) => {
-//   console.log(users, c)
-// })
