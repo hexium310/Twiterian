@@ -13,10 +13,9 @@ export default class {
     static set = items => new Promise(resolve => chrome.storage.local.set(items, resolve))
 
     /**
-     *
      * @param {string|string[]|object} keys
      * @returns {Promise<any>}
      */
-    static remove = keys => new Promise(resolve => chrome.storage.local.set(keys, resolve))
+    static remove = keys => new Promise(resolve => chrome.storage.local.remove(keys, resolve))
   }
 }
