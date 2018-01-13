@@ -7,6 +7,10 @@
     "default_popup": "main/index.html"
   },
   "options_page": "options/index.html",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "permissions": [
     "storage",
     "tabs",
