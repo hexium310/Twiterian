@@ -12,5 +12,10 @@ Promise.all([
     watch: true,
     hmrPort: 1,
   })).bundle(),
+  (new Bundler('./src/background.js', {
+    outDir: './dist/',
+    watch: true,
+    hmrPort: 2,
+  })).bundle(),
   cpx.watch('./src/manifest.json', './dist/')
 ])

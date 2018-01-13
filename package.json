@@ -5,7 +5,7 @@
   "author": "Hexin",
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "rimraf releases/src/ && cpx src/manifest.json releases/src/ && parcel build --no-cache -d releases/src/main src/main/index.html && parcel build --no-cache -d releases/src/options src/options/index.html",
+    "build": "rimraf releases/src/ && cpx src/manifest.json releases/src/ && parcel build --no-cache -d releases/src/main src/main/index.html && parcel build --no-cache -d releases/src/options src/options/index.html && parcel build --no-cache -d releases/src src/background.js",
     "release": "npm run build && node scripts/release.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
