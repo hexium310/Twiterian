@@ -1,5 +1,3 @@
-import Twit from 'twitter'
-
 import * as Chrome  from '../utils/chrome'
 
 document.querySelector('#tweet-box').addEventListener('paste', event => {
@@ -45,24 +43,19 @@ async function post() {
   const { consumer_key, consumer_secret } = require('../../config')
   const { access_token, access_token_secret } = users[document.querySelector('#userid').value]
 
-  const tw = new Twit({
-    consumer_key,
-    consumer_secret,
-    access_token_key: access_token,
-    access_token_secret,
-  })
-
-  const media = await Promise.all(
-    [...document.querySelectorAll('.post-image')].map(
-      child => tw.post('media/upload.json', {
-        media_data: child.src.split(',')[1],
-      })
-    )
-  )
-
-  await tw.post('statuses/update', {
-    status: document.querySelector('#tweet-box').value,
-    media_ids: media.map(res => res.media_id_string).join(','),
+  Chrome.Runtime.sendMessage({
+    keys: {
+      consumer_key,
+      consumer_secret,
+      access_token_key: access_token,
+      access_token_secret,
+    },
+    tweet: {
+      status: document.querySelector('#tweet-box').value,
+      media: [...document.querySelectorAll('.post-image')].map(
+        child => child.src.split(',')[1]
+      ),
+    },
   })
 
   while (document.querySelector('#image-list').firstChild) {
