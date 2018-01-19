@@ -76,7 +76,7 @@
 
         const fr = new FileReader()
         fr.onload = e => {
-          const images = this.get('images')
+          const { images } = this.get()
           if (images.length >= 4) {
             return
           }
@@ -91,7 +91,7 @@
       },
 
       removeImage(index) {
-        const images = this.get('images')
+        const { images } = this.get()
         images.splice(index, 1)
 
         this.set({
@@ -114,8 +114,10 @@
       },
 
       post() {
+        const { users, current_user_id } = this.store.get()
+        const { text, images } = this.get()
         const { consumer_key, consumer_secret } = require('../../../config')
-        const { access_token, access_token_secret } = this.store.get('users')[this.store.get('current_user_id')]
+        const { access_token, access_token_secret } = users[current_user_id]
 
         Chrome.Runtime.sendMessage({
           keys: {
@@ -125,8 +127,8 @@
             access_token_secret,
           },
           tweet: {
-            status: this.get('text'),
-            media: this.get('images').map(image => image.split(',')[1]),
+            status: text,
+            media: images.map(image => image.split(',')[1]),
           },
         })
 
