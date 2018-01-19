@@ -101,7 +101,6 @@
 
       count() {
         const { text } = this.get()
-        console.log(text)
 
         this.set({
           textCount: 140 - text.length
@@ -116,7 +115,7 @@
 
       post() {
         const { consumer_key, consumer_secret } = require('../../../config')
-        const { access_token, access_token_secret } = store.get('users')[store.get('current_user_id')]
+        const { access_token, access_token_secret } = this.store.get('users')[this.store.get('current_user_id')]
 
         Chrome.Runtime.sendMessage({
           keys: {
