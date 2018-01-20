@@ -8,7 +8,7 @@ import TweetForm from './components/TweetForm.svelte'
   const { users } = await Chrome.Storage.Local.get('users')
 
   const store = new Store({
-    current_user_id: Object.keys(users)[0],
+    current_user_id: Object.entries(users).sort(([, v], [, v2]) => v.orderBy - v2.orderBy)[0][0],
     users
   })
 
