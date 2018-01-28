@@ -1,9 +1,12 @@
 Logged in:
-<span id="user-name" class="user-name">@{{ $users[$current_user_id].screenName }}</span>
-<input type="hidden" id="user-id" value="{{ $current_user_id }}">
+<Dropdown/>
 
-<style>
-  .user-name {
-    font-weight: bold;
+<script>
+  import Dropdown from './Dropdown.svelte'
+
+  export default {
+    components: {
+      Dropdown
+    }
   }
-</style>
+</script>
