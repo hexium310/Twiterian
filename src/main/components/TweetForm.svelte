@@ -114,10 +114,10 @@
       },
 
       post() {
-        const { users, current_user_id } = this.store.get()
+        const { users, currentUserId } = this.store.get()
         const { text, images } = this.get()
         const { consumer_key, consumer_secret } = require('../../../config')
-        const { access_token, access_token_secret } = users[current_user_id]
+        const { access_token, access_token_secret } = users[currentUserId]
 
         Chrome.Runtime.sendMessage({
           keys: {
