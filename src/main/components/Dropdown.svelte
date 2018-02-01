@@ -1,11 +1,13 @@
 {{ #if isShow }}
-<div class="dropdown" on:click="hide()">
+<div class="dropdown">
   <ul>
   {{ #each sortedUsers as [userId, user], index }}
       <li class="{{ userId === $currentUserId ? 'logged-in' : '' }}" on:click="change(index)">@{{ user.screenName }}</li>
   {{ /each }}
   </ul>
 </div>
+
+<div id="overlay" class="overlay" on:click="hide()"></div>
 {{ else }}
 <div class="dropdown">
   <span class="logged-in" on:click="show()">@{{ $users[$currentUserId].screenName }} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
@@ -17,6 +19,7 @@
     position: absolute;
     left: 76px;
     top: 8px;
+    z-index: 2000;
   }
 
   .dropdown:hover {
@@ -42,6 +45,17 @@
 
   li:hover {
     background-color: cornflowerblue;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    z-index: 1000;
+    background-color: green;
   }
 </style>
 
@@ -87,6 +101,8 @@
         this.store.set({
           currentUserId: changedUserId
         })
+
+        this.hide()
       }
     },
   }
