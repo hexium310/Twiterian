@@ -1,5 +1,5 @@
 <label class="tweet-main">
-  <textarea id="tweet-box" class="tweet-box" bind:value="text" on:input="count()" on:paste="addImage(event)" on:keydown="keyDown(event)"></textarea>
+  <textarea id="tweet-box" class="tweet-box" bind:value="text" on:input="count()" on:paste="addImage(event)" on:keydown="keyDown(event)" autofocus></textarea>
   <span id="text-count" class="text-count {{ text.length > 140 ? 'invalid' : '' }}">{{ textCount }}</span>
 </label>
 
