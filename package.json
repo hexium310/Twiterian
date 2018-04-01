@@ -23,7 +23,7 @@
     "lint:main": "eslint src/main/",
     "lint:options": "eslint src/options/",
     "lint:utils": "eslint src/utils/",
-    "release": "run-s build \"node scripts/zip.js\"",
+    "release": "run-s build && node scripts/zip.js",
     "start": "yarn watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
