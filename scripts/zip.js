@@ -26,4 +26,3 @@ addFile().then(zip => {
   /* eslint no-console: "off" */
   console.log(`${target} has created.`)
 })
-
