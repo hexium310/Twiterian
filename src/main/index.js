@@ -4,6 +4,8 @@ import * as Chrome  from '../utils/chrome'
 import AccountSelector from './components/AccountSelector.svelte'
 import TweetForm from './components/TweetForm.svelte'
 
+import './index.css'
+
 !(async () => {
   const { users } = await Chrome.Storage.Local.get('users')
 

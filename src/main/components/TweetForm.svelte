@@ -1,14 +1,14 @@
 <label class="tweet-main">
   <textarea id="tweet-box" class="tweet-box" bind:value="text" on:input="count()" on:paste="addImage(event)" on:keydown="keyDown(event)" autofocus></textarea>
-  <span id="text-count" class="text-count {{ text.length > 140 ? 'invalid' : '' }}">{{ textCount }}</span>
+  <span id="text-count" class="text-count { text.length > 140 ? 'invalid' : '' }">{ textCount }</span>
 </label>
 
 <ul id="image-list">
-{{ #each images as image, index }}
+{ #each images as image, index }
   <li>
-    <img class="post-image" src="{{ image }}" alt="" on:click="removeImage(index)">
+    <img class="post-image" src="{ image }" alt="" on:click="removeImage(index)">
   </li>
-{{ /each }}
+{ /each }
 </ul>
 <button id="post-button" class="post-button" on:click="post()">POST</button>
 
@@ -56,6 +56,7 @@
 
 <script>
   import * as Chrome from '../../utils/chrome/index'
+  import { consumer_key, consumer_secret } from '../../../config'
 
   export default {
     data() {
@@ -116,7 +117,6 @@
       post() {
         const { users, currentUserId } = this.store.get()
         const { text, images } = this.get()
-        const { consumer_key, consumer_secret } = require('../../../config')
         const { access_token, access_token_secret } = users[currentUserId]
 
         Chrome.Runtime.sendMessage({

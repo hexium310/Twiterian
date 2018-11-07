@@ -1,16 +1,16 @@
-{{ #if isShow }}
+{ #if isShow }
 <div class="dropdown" on:click="hide()">
   <ul>
-  {{ #each sortedUsers as [userId, user], index }}
-      <li class="{{ userId === $currentUserId ? 'logged-in' : '' }}" on:click="change(index)">@{{ user.screenName }}</li>
-  {{ /each }}
+  { #each sortedUsers as [userId, user], index }
+      <li class="{ userId === $currentUserId ? 'logged-in' : '' }" on:click="change(index)">@{ user.screenName }</li>
+  { /each }
   </ul>
 </div>
-{{ else }}
+{ :else }
 <div class="dropdown">
-  <span class="logged-in" on:click="show()">@{{ $users[$currentUserId].screenName }} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+  <span class="logged-in" on:click="show()">@{ $users[$currentUserId].screenName } <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 </div>
-{{ /if }}
+{ /if }
 
 <style>
   .dropdown {
@@ -56,7 +56,7 @@
     },
 
     computed: {
-      sortedUsers($users) {
+      sortedUsers({ $users }) {
         return Object.entries($users).filter(([k, ]) => k !== 'currentUserId').sort(([, v], [, v2]) => v.orderBy - v2.orderBy)
       }
     },

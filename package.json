@@ -6,16 +6,10 @@
   "license": "MIT",
   "repository": "https://github.com/hexium310/Twiterian",
   "scripts": {
-    "build": "run-s lint clean:release copy:manifest \"build:!(dev) --no-cache\"",
-    "build:dev": "run-p build:dev:*",
-    "build:dev:background": "yarn build:background -d dist/ --no-minify",
-    "build:dev:main": "yarn build:main -d dist/main/ --no-minify",
-    "build:dev:options": "yarn build:options -d dist/options/ --no-minify",
-    "build:background": "parcel build -d releases/src/ src/background.js",
-    "build:main": "parcel build -d releases/src/main/ src/main/index.html",
-    "build:options": "parcel build -d releases/src/options/ src/options/index.html",
+    "build": "run-s lint clean:release copy:manifest && webpack --mode production",
+    "build:dev": "webpack --mode development && cpx src/manifest.json dist/",
     "clean": "run-p clean:*",
-    "clean:dev": "rimraf .cache/ dist/",
+    "clean:dev": "rimraf dist/",
     "clean:release": "rimraf releases/src/",
     "copy:manifest": "cpx src/manifest.json releases/src/",
     "lint": "run-p lint:*",
@@ -27,46 +21,52 @@
     "start": "yarn watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
-    "watch:background": "parcel watch -d dist/ src/background.js",
     "watch:manifest": "cpx -w src/manifest.json dist/",
-    "watch:main": "parcel watch -d dist/main/ src/main/index.html",
-    "watch:options": "parcel watch -d dist/options/ src/options/index.html"
+    "watch:contents": "webpack --watch --mode development"
   },
   "devDependencies": {
-    "axios": "^0.17.1",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "axios": "^0.18.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
     "cpx": "^1.5.0",
-    "eslint": "^4.16.0",
-    "glob-promise": "^3.3.0",
+    "css-loader": "^1.0.1",
+    "eslint": "^5.8.0",
+    "glob": "^7.1.3",
+    "glob-promise": "^3.4.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "mz": "^2.7.0",
     "node-zip": "^1.1.1",
-    "npm-check-updates": "^2.14.0",
-    "npm-run-all": "^4.1.2",
-    "parcel-bundler": "^1.5.1",
-    "parcel-plugin-svelte": "^0.2.1",
+    "npm-run-all": "^4.1.3",
+    "query-string": "^6.2.0",
     "rimraf": "^2.6.2",
-    "svelte": "^1.54.0",
-    "twitter": "^1.7.1"
+    "style-loader": "^0.23.1",
+    "svelte": "^2.15.2",
+    "svelte-loader": "^2.11.0",
+    "twitter": "^1.7.1",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
   },
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
-            "node": "current"
-          }
+            "browsers": [
+              "last 2 chrome versions"
+            ]
+          },
+          "useBuiltIns": "usage"
         }
-      ],
-      "stage-2"
+      ]
     ],
     "plugins": [
-      "transform-object-rest-spread"
+      "@babel/plugin-proposal-class-properties"
     ]
   },
   "eslintConfig": {

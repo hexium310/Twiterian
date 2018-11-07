@@ -1,7 +1,8 @@
 import twitter from 'twitter'
 
 import * as Chrome from './utils/chrome'
-import { postAccessToken, postRequestToken } from "./utils/twitter"
+import { consumer_key, consumer_secret } from '../config'
+import { postAccessToken, postRequestToken } from './utils/twitter'
 
 Chrome.Runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
@@ -30,7 +31,6 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
 
   switch (message.type) {
     case 'AddAccount': {
-      const { consumer_key, consumer_secret } = require('../config')
       const { oauthToken, oauthTokenSecret } = await postRequestToken(consumer_key, consumer_secret)
 
       await Chrome.Storage.Local.set({

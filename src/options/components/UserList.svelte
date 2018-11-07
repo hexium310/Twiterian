@@ -1,19 +1,19 @@
 <h2>Users</h2>
 <table id="user-list" class="user-list">
   <tbody>
-    {{ #each sortedUsers as [userId, value], index }}
+    { #each sortedUsers as [userId, value], index }
       <tr>
         <td>
           <button class="delete icon-hover" on:click="removeAccount(index)">
             <i class="fa fa-times fa-2x" aria-hidden="true"></i>
           </button>
         </td>
-        <td>{{ value.screenName }}</td>
+        <td>{ value.screenName }</td>
       </tr>
-    {{ /each }}
+    { /each }
     <tr>
       <td>
-        <button class="{{ buttonAvailable ? 'icon-hover' : '' }}" disabled="{{ !buttonAvailable }}" on:click="addAccount()">
+        <button class="{ buttonAvailable ? 'icon-hover' : '' }" disabled="{ !buttonAvailable }" on:click="addAccount()">
           <i class="fa fa-plus fa-2x"></i>
         </button>
       </td>
@@ -66,7 +66,7 @@
     },
 
     computed: {
-      sortedUsers(users) {
+      sortedUsers({ users }) {
         return Object.entries(users).filter(([k, ]) => k !== 'currentUserId').sort(([, v], [, v2]) => v.orderBy - v2.orderBy)
       }
     },

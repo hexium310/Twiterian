@@ -1,6 +1,6 @@
 import axios from 'axios'
 import crypto from 'crypto'
-import querystring from 'querystring'
+import querystring from 'query-string'
 
 const API_ROOT = 'https://api.twitter.com/1.1/'
 const REQUEST_TOKEN = 'https://api.twitter.com/oauth/request_token'
