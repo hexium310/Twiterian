@@ -67,6 +67,9 @@
 
     computed: {
       sortedUsers({ users }) {
+        if (!users) {
+          return {}
+        }
         return Object.entries(users).filter(([k, ]) => k !== 'currentUserId').sort(([, v], [, v2]) => v.orderBy - v2.orderBy)
       }
     },
