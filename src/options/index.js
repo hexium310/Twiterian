@@ -1,7 +1,10 @@
-import querystring from 'querystring'
+import querystring from 'query-string'
 
+import { consumer_key, consumer_secret } from '../../config'
 import * as Chrome  from '../utils/chrome'
 import UserList from './components/UserList.svelte'
+
+import './index.css'
 
 if (!!window.location.search) {
   const { oauth_token = null, oauth_verifier = null } = querystring.parse(window.location.search.substring(1))
@@ -9,7 +12,7 @@ if (!!window.location.search) {
   history.replaceState(null, null, 'index.html')
 
   !(async () => {
-    const { consumer_key, consumer_secret } = require('../../config')
+    // const { consumer_key, consumer_secret } = require('../../config')
     const { tokens: { oauthToken, oauthTokenSecret } } = await Chrome.Storage.Local.get(['tokens'])
     if (oauth_token !== oauthToken) {
       return
