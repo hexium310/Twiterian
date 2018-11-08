@@ -1,7 +1,6 @@
 import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-
 const loaders = {
   babel: {
     loader: 'babel-loader',
@@ -38,7 +37,6 @@ export default (env, argv) => {
   }[argv.mode] || 'dist'
 
   return {
-    target: 'node',
     entry: {
       background: ['./src/background.js'],
       'main/index': ['./src/main/index.js'],
@@ -87,5 +85,8 @@ export default (env, argv) => {
         template: 'src/main/index.html',
       }),
     ],
+    node: {
+      fs: 'empty',
+    },
   }
 }
