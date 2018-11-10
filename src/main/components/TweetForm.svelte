@@ -56,7 +56,9 @@
 
 <script>
   import * as Chrome from '../../utils/chrome/index'
-  import { consumer_key, consumer_secret } from '../../../config'
+  import config from '../../../config'
+
+  const { consumer_key, consumer_secret } = config
 
   export default {
     data() {
