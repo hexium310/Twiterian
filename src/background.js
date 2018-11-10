@@ -1,7 +1,7 @@
 import twitter from 'twitter'
 
 import * as Chrome from './utils/chrome'
-import { consumer_key, consumer_secret } from '../config'
+import config from '../config'
 import { postAccessToken, postRequestToken } from './utils/twitter'
 
 Chrome.Runtime.onMessage.addListener(async (message, sender) => {
@@ -28,6 +28,8 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
       media_ids: media.map(res => res.media_id_string).join(','),
     })
   }
+
+  const { consumer_key, consumer_secret } = config
 
   switch (message.type) {
     case 'AddAccount': {

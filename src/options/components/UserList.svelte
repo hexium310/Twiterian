@@ -13,7 +13,7 @@
     { /each }
     <tr>
       <td>
-        <button class="{ buttonAvailable ? 'icon-hover' : '' }" disabled="{ !buttonAvailable }" on:click="addAccount()">
+        <button class="icon-hover" on:click="addAccount()">
           <i class="fa fa-plus fa-2x"></i>
         </button>
       </td>
@@ -59,12 +59,6 @@
   import * as Chrome from '../../utils/chrome/index'
 
   export default {
-    data() {
-      return {
-        buttonAvailable: true,
-      }
-    },
-
     computed: {
       sortedUsers({ users }) {
         if (!users) {
@@ -79,6 +73,8 @@
         this.set({
           buttonAvailable: false,
         })
+
+        document.querySelector('#modalCheck').checked = true
 
         await Chrome.Runtime.sendMessage({
           type: 'AddAccount',
