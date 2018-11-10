@@ -88,8 +88,8 @@ function _request(method, endpoint, options = {}) {
 
   if (endpoint === REQUEST_TOKEN) {
     oauth_params = {
-      // oauth_callback: 'oob',
-      oauth_callback: chrome.extension.getURL('options/index.html'),
+      oauth_callback: 'oob',
+      // oauth_callback: chrome.extension.getURL('options/index.html'),
       ...oauth_params,
     }
   } else if (endpoint === ACCESS_TOKEN) {

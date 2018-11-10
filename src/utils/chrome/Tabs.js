@@ -22,4 +22,8 @@ export default class {
   static sendMessage(tabId, message, options) {
     return new Promise(resolve => chrome.tabs.sendMessage(tabId, message, options, resolve))
   }
+
+  static create(options = {}) {
+    return new Promise(resolve => chrome.tabs.create(options, resolve))
+  }
 }
