@@ -1,13 +1,8 @@
-import querystring from 'query-string'
-
-import config from '../../config'
 import * as Chrome  from '../utils/chrome'
 import UserList from './components/UserList.svelte'
 import Modal from './components/Modal'
 
 import './index.css'
-
-const { consumer_key, consumer_secret } = config
 
 !(async () => {
   const { users } = await Chrome.Storage.Local.get('users')
