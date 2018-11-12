@@ -1,8 +1,8 @@
+import twitterAPI from 'node-twitter-api'
 import twitter from 'twitter'
 
 import * as Chrome from './utils/chrome'
 import config from '../config'
-import { postAccessToken, postRequestToken } from './utils/twitter'
 
 Chrome.Runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
@@ -27,13 +27,26 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
       status: message.tweet.status,
       media_ids: media.map(res => res.media_id_string).join(','),
     })
+
+    return true
   }
 
   const { consumer_key, consumer_secret } = config
+  const twitterOAuth = new twitterAPI({
+    consumerKey: consumer_key,
+    consumerSecret: consumer_secret,
+    callback: 'oob',
+  })
 
   switch (message.type) {
     case 'AddAccount': {
-      const { oauthToken, oauthTokenSecret } = await postRequestToken(consumer_key, consumer_secret)
+      const { oauthToken, oauthTokenSecret } = await (() => new Promise(
+        resolve => twitterOAuth.getRequestToken(
+          (error, requestToken, requestTokenSecret) => {
+            resolve({ oauthToken: requestToken, oauthTokenSecret: requestTokenSecret })
+          }
+        )
+      ))()
 
       await Chrome.Storage.Local.set({
         tokens: {
@@ -50,12 +63,28 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
     }
 
     case 'GetAccessToken': {
+      const { oauthToken, oauthTokenSecret, oauth_verifier } = message.data
       const {
         accessToken,
         accessTokenSecret,
         userId,
-        screenName
-      } = await postAccessToken(...Object.values(message.data))
+        screenName,
+      } = await (() => new Promise(
+        resolve => twitterOAuth.getAccessToken(
+          oauthToken,
+          oauthTokenSecret,
+          oauth_verifier,
+          (error, accessToken, accessTokenSecret, results) => {
+            resolve({
+              accessToken,
+              accessTokenSecret,
+              userId: results.user_id,
+              screenName: results.screen_name
+            })
+          }
+        )
+      ))()
+
       const { users, count } = await Chrome.Storage.Local.get({users: {}, count: 0})
 
       await Chrome.Storage.Local.set({
