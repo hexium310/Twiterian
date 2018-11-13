@@ -1,0 +1,7 @@
+{
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "semicolon": [false, "always"],
+    "trailing-comma": [true, { "singleline": "never" }]
+  }
+}

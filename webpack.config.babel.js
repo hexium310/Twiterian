@@ -19,6 +19,9 @@ const loaders = {
       }
     },
   },
+  typescript: {
+    loader: 'ts-loader',
+  },
   style: {
     loader: 'style-loader',
   },
@@ -28,6 +31,12 @@ const loaders = {
   html: {
     loader: 'html-loader',
   },
+  tslint: {
+    loader: 'tslint-loader',
+    options: {
+      typeCheck: true,
+    }
+  }
 }
 
 export default (env, argv) => {
@@ -43,7 +52,7 @@ export default (env, argv) => {
       'options/index': ['./src/options/index.js'],
     },
     resolve: {
-      extensions: ['.js', '.svelte', '.json'],
+      extensions: ['.js', '.ts', '.svelte', '.json'],
     },
     output: {
       path: path.resolve(__dirname, outdir),
@@ -52,9 +61,15 @@ export default (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.[jt]s$/,
           exclude: /node_modules/,
           use: loaders.babel,
+        },
+        {
+          test: /\.ts$/,
+          enforce: 'pre',
+          exclude: /node_modules/,
+          use: [loaders.typescript, loaders.tslint],
         },
         {
           test: /\.svelte$/,
