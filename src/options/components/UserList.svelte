@@ -56,7 +56,7 @@
 </style>
 
 <script>
-  import * as Chrome from '../../utils/chrome/index'
+  import { browser } from 'webextension-polyfill-ts'
 
   export default {
     computed: {
@@ -76,7 +76,7 @@
 
         document.querySelector('#modalCheck').checked = true
 
-        await Chrome.Runtime.sendMessage({
+        await browser.runtime.sendMessage({
           type: 'AddAccount',
         })
       },
@@ -89,7 +89,7 @@
           users
         })
 
-        await Chrome.Runtime.sendMessage({
+        await browser.runtime.sendMessage({
           type: 'RemoveAccount',
           data: {
             users

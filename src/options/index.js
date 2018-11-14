@@ -1,11 +1,12 @@
-import * as Chrome  from '../utils/chrome'
+import { browser } from 'webextension-polyfill-ts'
+
 import UserList from './components/UserList.svelte'
 import Modal from './components/Modal'
 
 import './index.css'
 
 !(async () => {
-  const { users } = await Chrome.Storage.Local.get('users')
+  const { users } = await browser.storage.local.get('users')
 
   new UserList({
     target: document.querySelector('#main'),
@@ -18,12 +19,12 @@ import './index.css'
   })
 })()
 
-Chrome.Runtime.onMessage.addListener(async message => {
+browser.runtime.onMessage.addListener(async message => {
   switch (message.type) {
     case 'GotOAuthToken': {
-      const { tokens: { oauthToken } } = await Chrome.Storage.Local.get('tokens')
+      const { tokens: { oauthToken } } = await browser.storage.local.get('tokens')
 
-      await Chrome.Tabs.create({
+      await browser.tabs.create({
         url: `https://api.twitter.com/oauth/authorize?oauth_token=${oauthToken}`
       })
 
@@ -31,10 +32,10 @@ Chrome.Runtime.onMessage.addListener(async message => {
     }
 
     case 'AddSuccess': {
-      await Chrome.Storage.Local.remove('tokens')
+      await browser.storage.local.remove('tokens')
 
-      await Chrome.Tabs.update({
-        url: Chrome.Runtime.getURL('options/index.html')
+      await browser.tabs.update({
+        url: browser.runtime.getURL('options/index.html')
       })
     }
   }

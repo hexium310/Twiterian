@@ -1,10 +1,10 @@
+import { browser } from 'webextension-polyfill-ts'
 import twitterAPI from 'node-twitter-api'
 import twitter from 'twitter'
 
-import * as Chrome from './utils/chrome'
 import config from '../config'
 
-Chrome.Runtime.onMessage.addListener(async (message, sender) => {
+browser.runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
     const { consumer_key, consumer_secret, access_token_key, access_token_secret } = message.keys
 
@@ -48,14 +48,14 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
         )
       ))()
 
-      await Chrome.Storage.Local.set({
+      await browser.storage.local.set({
         tokens: {
           oauthToken,
           oauthTokenSecret,
         }
       })
 
-      Chrome.Tabs.sendMessage(sender.tab.id, {
+      browser.tabs.sendMessage(sender.tab.id, {
         type: 'GotOAuthToken',
       })
 
@@ -85,9 +85,9 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
         )
       ))()
 
-      const { users, count } = await Chrome.Storage.Local.get({users: {}, count: 0})
+      const { users, count } = await browser.storage.local.get({users: {}, count: 0})
 
-      await Chrome.Storage.Local.set({
+      await browser.storage.local.set({
         users: {
           [userId]: {
             screenName,
@@ -100,7 +100,7 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
         count: count + 1,
       })
 
-      Chrome.Tabs.sendMessage(sender.tab.id, {
+      browser.tabs.sendMessage(sender.tab.id, {
         type: 'AddSuccess',
       })
 
@@ -108,7 +108,7 @@ Chrome.Runtime.onMessage.addListener(async (message, sender) => {
     }
 
     case 'RemoveAccount': {
-      await Chrome.Storage.Local.set({
+      await browser.storage.local.set({
         users: message.data.users
       })
 

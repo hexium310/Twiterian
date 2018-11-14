@@ -46,7 +46,7 @@
 </style>
 
 <script>
-  import * as Chrome  from '../../utils/chrome'
+  import { browser } from 'webextension-polyfill-ts'
 
   export default {
     data() {
@@ -75,10 +75,10 @@
       },
 
       async change(index) {
-        const { users } = await Chrome.Storage.Local.get('users')
+        const { users } = await browser.storage.local.get('users')
         const changedUserId = this.get().sortedUsers[index][0]
 
-        await Chrome.Storage.Local.set({
+        await browser.storage.local.set({
           users: Object.assign(users, {
             currentUserId: changedUserId
           })

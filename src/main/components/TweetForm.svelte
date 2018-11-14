@@ -55,7 +55,7 @@
 </style>
 
 <script>
-  import * as Chrome from '../../utils/chrome/index'
+  import { browser } from 'webextension-polyfill-ts'
   import config from '../../../config'
 
   const { consumer_key, consumer_secret } = config
@@ -121,7 +121,7 @@
         const { text, images } = this.get()
         const { access_token, access_token_secret } = users[currentUserId]
 
-        Chrome.Runtime.sendMessage({
+        browser.runtime.sendMessage({
           keys: {
             consumer_key,
             consumer_secret,

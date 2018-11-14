@@ -1,4 +1,5 @@
 <div class="modal">
+
   <input type="checkbox" id="modalCheck" class="modal-check">
   <div class="modal-overlay">
     <label class="modal-close" for="modalCheck"></label>
@@ -100,8 +101,9 @@
 </style>
 
 <script>
+import { browser } from 'webextension-polyfill-ts'
+
 import config from '../../../config'
-import * as Chrome  from '../../utils/chrome'
 
 const { consumer_key, consumer_secret } = config
 
@@ -114,10 +116,10 @@ export default {
 
   methods: {
     async post() {
-      const { tokens: { oauthToken, oauthTokenSecret } } = await Chrome.Storage.Local.get(['tokens'])
+      const { tokens: { oauthToken, oauthTokenSecret } } = await browser.storage.local.get(['tokens'])
       const oauth_verifier = this.get().pin
 
-      await Chrome.Runtime.sendMessage({
+      await browser.runtime.sendMessage({
         type: 'GetAccessToken',
         data: {
           consumer_key,
