@@ -49,7 +49,7 @@ export default (env, argv) => {
   return {
     entry: {
       background: ['./src/background.js'],
-      'main/index': ['./src/main/index.js'],
+      'main/index': ['./src/main/index.ts'],
       'options/index': ['./src/options/index.js'],
     },
     resolve: {
