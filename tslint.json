@@ -2,6 +2,11 @@
   "extends": ["tslint:recommended"],
   "rules": {
     "semicolon": [false, "always"],
-    "trailing-comma": [true, { "singleline": "never" }]
+    "quotemark": [true, "single"],
+    "no-unused-expression": [true, "allow-fast-null-checks", "allow-new"],
+    "ordered-imports": false,
+    "variable-name": {
+      "options": ["ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"]
+    }
   }
 }
