@@ -50,7 +50,7 @@ export default (env, argv) => {
     entry: {
       background: ['./src/background.js'],
       'main/index': ['./src/main/index.ts'],
-      'options/index': ['./src/options/index.js'],
+      'options/index': ['./src/options/index.ts'],
     },
     resolve: {
       extensions: ['.js', '.ts', '.svelte', '.json'],

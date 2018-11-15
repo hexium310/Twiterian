@@ -5,6 +5,11 @@ type User = {
   orderBy: number
 }
 
+interface Tokens {
+  oauthToken?: string
+  oauthTokenSecret?: string
+}
+
 interface TwiterianStore {
   currentUserId?: string
   users: {
@@ -14,4 +19,5 @@ interface TwiterianStore {
 
 interface TwiterianStorage extends TwiterianStore {
   count?: number
+  tokens: Tokens
 }
