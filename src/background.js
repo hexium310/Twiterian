@@ -4,6 +4,15 @@ import twitter from 'twitter'
 
 import config from '../config'
 
+// Since currentUserId was moved to the storage root, delete users.currentUserId.
+!(async () => {
+  const { users } = await browser.storage.local.get('users')
+  if (typeof users.currentUserId !== 'undefined') {
+    delete users.currentUserId
+    browser.storage.local.set({ users })
+  }
+})()
+
 browser.runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
     const { consumer_key, consumer_secret, access_token_key, access_token_secret } = message.keys

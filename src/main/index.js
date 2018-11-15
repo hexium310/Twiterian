@@ -7,10 +7,10 @@ import TweetForm from './components/TweetForm.svelte'
 import './index.css'
 
 !(async () => {
-  const { users } = await browser.storage.local.get('users')
+  const { users, currentUserId } = await browser.storage.local.get(['users', 'currentUserId'])
 
   const store = new Store({
-    currentUserId: users.currentUserId || Object.entries(users).filter(([k, ]) => k !== 'currentUserId').sort(([, v], [, v2]) => v.orderBy - v2.orderBy)[0][0],
+    currentUserId: currentUserId || Object.entries(users).filter(([k, ]) => k !== 'currentUserId').sort(([, v], [, v2]) => v.orderBy - v2.orderBy)[0][0],
     users
   })
 

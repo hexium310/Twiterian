@@ -75,13 +75,10 @@
       },
 
       async change(index) {
-        const { users } = await browser.storage.local.get('users')
         const changedUserId = this.get().sortedUsers[index][0]
 
         await browser.storage.local.set({
-          users: Object.assign(users, {
-            currentUserId: changedUserId
-          })
+          currentUserId: changedUserId
         })
 
         this.store.set({
