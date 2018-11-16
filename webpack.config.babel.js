@@ -1,4 +1,5 @@
 import path from 'path'
+import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const loaders = {
@@ -89,6 +90,14 @@ export default (env, argv) => {
       ],
     },
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          tslint: {
+            formattersDirectory: 'node_modules/custom-tslint-formatters/formatters',
+            formatter: 'grouped'
+          },
+        }
+      }),
       new HtmlWebpackPlugin({
         inject: false,
         filename: 'options/index.html',
