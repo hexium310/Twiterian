@@ -1,7 +1,10 @@
 type User = {
   screenName: string
-  access_token: string
-  access_token_secret: string
+  userId?: string
+  access_token?: string
+  accessToken?: string
+  access_token_secret?: string
+  accessTokenSecret?: string
   orderBy: number
 }
 
@@ -18,6 +21,18 @@ interface TwiterianStore {
 }
 
 interface TwiterianStorage extends TwiterianStore {
-  count?: number
+  count: number
   tokens: Tokens
+}
+
+interface Media {
+  media_id: number
+  media_id_string: string
+  size: number
+  expires_after_secs: number
+  image: {
+    image_type: string
+    w: number
+    h: number
+  }
 }

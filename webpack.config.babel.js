@@ -48,7 +48,7 @@ export default (env, argv) => {
 
   return {
     entry: {
-      background: ['./src/background.js'],
+      background: ['./src/background.ts'],
       'main/index': ['./src/main/index.ts'],
       'options/index': ['./src/options/index.ts'],
     },
