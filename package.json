@@ -49,11 +49,11 @@
     "svelte": "^2.15.2",
     "svelte-loader": "^2.11.0",
     "tls": "^0.0.1",
-    "ts-loader": "^5.3.0",
+    "ts-loader": "^5.3.3",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.5.4",
     "twitter": "^1.7.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.4.2",
     "webextension-polyfill-ts": "^0.8.9",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
