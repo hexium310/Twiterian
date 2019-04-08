@@ -1,6 +1,11 @@
 {
-  "extends": "eslint:recommended",
-  "parser": "babel-eslint",
+  "root":  true,
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -22,7 +27,8 @@
         ]
       }
     ],
-    "no-extra-boolean-cast": "off"
+    "no-extra-boolean-cast": "off",
+    "@typescript-eslint/indent": ["error", 2]
   },
   "env": {
     "es6": true,
@@ -30,6 +36,7 @@
     "browser": true
   },
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaVersion": 6,
     "sourceType": "module"
   },

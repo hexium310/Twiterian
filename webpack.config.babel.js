@@ -1,5 +1,4 @@
 import path from 'path'
-import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const loaders = {
@@ -32,12 +31,6 @@ const loaders = {
   html: {
     loader: 'html-loader',
   },
-  tslint: {
-    loader: 'tslint-loader',
-    options: {
-      typeCheck: true,
-    }
-  }
 }
 
 export default (env, argv) => {
@@ -70,7 +63,7 @@ export default (env, argv) => {
           test: /\.ts$/,
           enforce: 'pre',
           exclude: /node_modules/,
-          use: [loaders.typescript, loaders.tslint],
+          use: [loaders.typescript],
         },
         {
           test: /\.svelte$/,
@@ -90,14 +83,6 @@ export default (env, argv) => {
       ],
     },
     plugins: [
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          tslint: {
-            formattersDirectory: 'node_modules/custom-tslint-formatters/formatters',
-            formatter: 'grouped'
-          },
-        }
-      }),
       new HtmlWebpackPlugin({
         inject: false,
         filename: 'options/index.html',
