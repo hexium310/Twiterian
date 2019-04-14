@@ -1,23 +1,13 @@
 {
   "root":  true,
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "react"],
   "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
+    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
     "no-console": [
       "warn",
       {
@@ -27,8 +17,21 @@
         ]
       }
     ],
+    "semi": ["error", "always"],
     "no-extra-boolean-cast": "off",
-    "@typescript-eslint/indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/camelcase": [
+      "error",
+      {
+        "properties": "never",
+        "ignoreDestructuring": true
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": ["warn", {
+      "allowExpressions": true,
+      "allowTypedFunctionExpressions": true
+    }],
+    "react/prop-types": "off"
   },
   "env": {
     "es6": true,
@@ -37,10 +40,18 @@
   },
   "parserOptions": {
     "project": "./tsconfig.json",
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules" :true
+    }
   },
   "globals": {
     "chrome": false
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

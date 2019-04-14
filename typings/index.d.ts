@@ -1,4 +1,4 @@
-type User = {
+interface User {
   screenName: string
   userId?: string
   access_token?: string
@@ -6,6 +6,10 @@ type User = {
   access_token_secret?: string
   accessTokenSecret?: string
   orderBy: number
+}
+
+interface Users {
+  [userId?: string]: User
 }
 
 interface Tokens {

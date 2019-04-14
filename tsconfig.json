@@ -4,6 +4,7 @@
     "typeRoots": ["./typings"],
     "module": "esnext",
     "target": "es6",
+    "jsx": "react",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "skipLibCheck": true,
