@@ -43,10 +43,10 @@ export default (env, argv) => {
     entry: {
       background: ['./src/background.ts'],
       'main/index': ['./src/main/index.ts'],
-      'options/index': ['./src/options/index.ts'],
+      'options/index': ['./src/options/index.tsx'],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.svelte', '.json'],
+      extensions: ['.js', '.ts', '.tsx', '.svelte', '.json'],
     },
     output: {
       path: path.resolve(__dirname, outdir),
@@ -60,10 +60,9 @@ export default (env, argv) => {
           use: loaders.babel,
         },
         {
-          test: /\.ts$/,
-          enforce: 'pre',
+          test: /\.tsx?$/,
           exclude: /node_modules/,
-          use: [loaders.typescript],
+          use: loaders.typescript,
         },
         {
           test: /\.svelte$/,
