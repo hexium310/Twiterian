@@ -98,7 +98,7 @@ export const Modal: React.FunctionComponent<ModalPorps> = ({
         consumer_secret: consumerSecret,
         oauthToken,
         oauthTokenSecret,
-        oauth_verfier: pin,
+        oauth_verifier: pin,
       },
     });
   };
