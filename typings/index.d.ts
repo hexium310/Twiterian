@@ -17,6 +17,21 @@ interface Tokens {
   oauthTokenSecret?: string
 }
 
+interface UserDetails {
+  screenName: string;
+  userId: string;
+}
+
+interface RequestTokens {
+  requestToken: string;
+  requestTokenSecret: string;
+}
+
+interface AccessTokens {
+  accessToken: string;
+  accessTokenSecret: string;
+}
+
 interface TwiterianStore {
   currentUserId?: string
   users: {

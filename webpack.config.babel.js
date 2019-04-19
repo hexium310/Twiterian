@@ -55,7 +55,7 @@ export default (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.[jt]s$/,
+          test: /\.js$/,
           exclude: /node_modules/,
           use: loaders.babel,
         },
