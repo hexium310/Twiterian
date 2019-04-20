@@ -55,3 +55,5 @@ interface Media {
     h: number
   }
 }
+
+type Image = string;

@@ -2,31 +2,8 @@ import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const loaders = {
-  babel: {
-    loader: 'babel-loader',
-  },
-  svelte: {
-    loader: 'svelte-loader',
-    options: {
-      emitCss: true,
-      hotReload: true,
-      onwarn: warning => {
-        if (warning.code === 'A11Y_autofocus') {
-          return
-        }
-
-        return warning
-      }
-    },
-  },
   typescript: {
     loader: 'ts-loader',
-  },
-  style: {
-    loader: 'style-loader',
-  },
-  css: {
-    loader: 'css-loader',
   },
   html: {
     loader: 'html-loader',
@@ -42,11 +19,11 @@ export default (env, argv) => {
   return {
     entry: {
       background: ['./src/background.ts'],
-      'main/index': ['./src/main/index.ts'],
+      'main/index': ['./src/main/index.tsx'],
       'options/index': ['./src/options/index.tsx'],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.tsx', '.svelte', '.json'],
+      extensions: ['.js', '.ts', '.tsx', '.json'],
     },
     output: {
       path: path.resolve(__dirname, outdir),
@@ -55,24 +32,9 @@ export default (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: loaders.babel,
-        },
-        {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: loaders.typescript,
-        },
-        {
-          test: /\.svelte$/,
-          exclude: /node_modules/,
-          use: [loaders.babel, loaders.svelte],
-        },
-        {
-          test: /\.css$/,
-          exclude: /node_modules/,
-          use: [loaders.style, loaders.css],
         },
         {
           test: /\.html$/,
