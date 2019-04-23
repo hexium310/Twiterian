@@ -1,4 +1,4 @@
-type User = {
+interface User {
   screenName: string
   userId?: string
   access_token?: string
@@ -8,9 +8,28 @@ type User = {
   orderBy: number
 }
 
+interface Users {
+  [userId?: string]: User
+}
+
 interface Tokens {
   oauthToken?: string
   oauthTokenSecret?: string
+}
+
+interface UserDetails {
+  screenName: string;
+  userId: string;
+}
+
+interface RequestTokens {
+  requestToken: string;
+  requestTokenSecret: string;
+}
+
+interface AccessTokens {
+  accessToken: string;
+  accessTokenSecret: string;
 }
 
 interface TwiterianStore {
@@ -36,3 +55,5 @@ interface Media {
     h: number
   }
 }
+
+type Image = string;

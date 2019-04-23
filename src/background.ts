@@ -1,120 +1,117 @@
-import { browser, Runtime } from 'webextension-polyfill-ts'
-import twitter from 'twitter'
-import twitterAPI from 'node-twitter-api'
+import { browser } from 'webextension-polyfill-ts';
+import twitter from 'twitter';
+import OAuth from 'oauth';
 
-import config from '../config.json'
+import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '../config.json';
 
 // Since currentUserId was moved to the storage root, delete users.currentUserId.
 (async () => {
-  const { users }: TwiterianStore = await browser.storage.local.get('users') as TwiterianStorage
+  const { users }: TwiterianStore = await browser.storage.local.get('users') as TwiterianStorage;
   if (typeof users.currentUserId !== 'undefined') {
-    delete users.currentUserId
-    browser.storage.local.set({ users })
+    delete users.currentUserId;
+    browser.storage.local.set({ users });
   }
-})()
+})();
 
-browser.runtime.onMessage.addListener(async (message: any, sender: Runtime.MessageSender) => {
-  const { consumer_key, consumer_secret } = config
+const oa = new OAuth.OAuth(
+  'https://api.twitter.com/oauth/request_token',
+  'https://api.twitter.com/oauth/access_token',
+  consumerKey,
+  consumerSecret,
+  '1.0A',
+  'oob',
+  'HMAC-SHA1'
+);
 
+browser.runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
-    const { access_token_key , access_token_secret } = message.keys
+    const { access_token_key , access_token_secret } = message.keys;
 
     const client = new twitter({
       access_token_key,
       access_token_secret,
-      consumer_key,
-      consumer_secret,
-    })
+      consumer_key: consumerKey,
+      consumer_secret: consumerSecret,
+    });
 
-    const media: Media[] = await Promise.all<Media>(
+    const media = await Promise.all<Media>(
       message.tweet.media.map(
         (medium: string) => client.post('media/upload.json', {
           media_data: medium,
         }),
       ),
-    )
+    );
 
     await client.post('statuses/update', {
       media_ids: media.map((res) => res.media_id_string).join(','),
       status: message.tweet.status,
-    })
+    });
 
-    return true
+    return true;
   }
 
-  // const { consumer_key, consumer_secret } = config
-  const twitterOAuth = new twitterAPI({
-    callback: 'oob',
-    consumerKey: consumer_key,
-    consumerSecret: consumer_secret,
-  })
-
   if (!sender || !sender.tab) {
-    return
+    return;
   }
 
   switch (message.type) {
     case 'AddAccount': {
-      const { oauthToken, oauthTokenSecret }: Tokens = await (() => new Promise(
-        (resolve) => twitterOAuth.getRequestToken(
-          (_error: any, requestToken: string, requestTokenSecret: string) => {
+      const { requestToken, requestTokenSecret } = await (() => new Promise<RequestTokens>(
+        (resolve) => oa.getOAuthRequestToken(
+          {},
+          (_, requestToken, requestTokenSecret) => {
             resolve({
-              oauthToken: requestToken,
-              oauthTokenSecret: requestTokenSecret,
-            })
+              requestToken,
+              requestTokenSecret,
+            });
           },
         ),
-      ))()
+      ))();
 
       await browser.storage.local.set({
         tokens: {
-          oauthToken,
-          oauthTokenSecret,
+          oauthToken: requestToken,
+          oauthTokenSecret: requestTokenSecret,
         },
-      })
+      });
 
       browser.tabs.sendMessage(sender.tab.id as number, {
         type: 'GotOAuthToken',
-      })
+      });
 
-      break
+      break;
     }
 
     case 'GetAccessToken': {
-      const { oauthToken, oauthTokenSecret, oauth_verifier } = message.data
+      const { oauthToken, oauthTokenSecret, oauth_verifier } = message.data;
+
       const {
         accessToken,
         accessTokenSecret,
         userId,
         screenName,
-      }: User = await (() => new Promise(
-        (resolve) => twitterOAuth.getAccessToken(
+      } = await (() => new Promise<AccessTokens & UserDetails>(
+        (resolve) => oa.getOAuthAccessToken(
           oauthToken,
           oauthTokenSecret,
           oauth_verifier,
-          (
-            _error: any,
-            token: string,
-            tokenSecret: string,
-            results: { user_id: number, screen_name: string },
-          ) => {
+          ( _, token, tokenSecret, results) => {
             resolve({
               accessToken: token,
-              accessTokenSecre: tokenSecret,
-              sceenName: results.screen_name,
+              accessTokenSecret: tokenSecret,
+              screenName: results.screen_name,
               userId: results.user_id,
-            })
+            });
           },
         ),
-      ))() as User
+      ))();
 
-      const { users, count }: TwiterianStorage =
-        await browser.storage.local.get({users: {}, count: 0}) as TwiterianStorage
+      const { users, count } = await browser.storage.local.get({users: {}, count: 0});
 
       await browser.storage.local.set({
         count: count + 1,
         users: {
-          [userId as any]: {
+          [userId]: {
             access_token: accessToken,
             access_token_secret: accessTokenSecret,
             orderBy: count,
@@ -122,23 +119,23 @@ browser.runtime.onMessage.addListener(async (message: any, sender: Runtime.Messa
           },
           ...(users),
         },
-      })
+      });
 
       browser.tabs.sendMessage(sender.tab.id as number, {
         type: 'AddSuccess',
-      })
+      });
 
-      break
+      break;
     }
 
     case 'RemoveAccount': {
       await browser.storage.local.set({
         users: message.data.users,
-      })
+      });
 
-      break
+      break;
     }
   }
 
-  return true
-})
+  return true;
+});
