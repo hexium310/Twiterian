@@ -89,9 +89,9 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
         <tbody>
           {
             sortedUsers.map(([userId, value], index) => (
-              <tr key={index}>
+              <tr key={ index }>
                 <td>
-                  <Button onClick={() => removeAccount(userId)}>
+                  <Button onClick={ () => removeAccount(userId) }>
                     <i className="fa fa-times fa-2x"></i>
                   </Button>
                 </td>
@@ -101,7 +101,7 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
           }
           <tr>
             <td>
-              <Button onClick={() => addAccount()}>
+              <Button onClick={ () => addAccount() }>
                 <i className="fa fa-plus fa-2x"></i>
               </Button>
             </td>

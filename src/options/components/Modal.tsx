@@ -105,16 +105,16 @@ export const Modal: React.FunctionComponent<ModalPorps> = ({
 
   return (
     <ModalOverlay>
-      <ModalCloseDiv onClick={() => setIsShown(false)}></ModalCloseDiv>
+      <ModalCloseDiv onClick={ () => setIsShown(false) }></ModalCloseDiv>
       <ModalContent>
         <ModalBody>
           <label>
             PIN:
-            <input type="text" value={pin} onChange={(e) => handlePINChange(e)}/>
+            <input type="text" value={ pin } onChange={ (e) => handlePINChange(e) }/>
           </label>
         </ModalBody>
         <ModalFooter>
-          <PostButton onClick={() => postPIN()}>OK</PostButton>
+          <PostButton onClick={ () => postPIN() }>OK</PostButton>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>

@@ -19,6 +19,9 @@
     ],
     "semi": ["error", "always"],
     "no-extra-boolean-cast": "off",
+    "object-curly-spacing": ["error", "always"],
+    "arrow-parens": ["error", "always"],
+    "block-spacing": "error",
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/camelcase": [
       "error",
@@ -31,7 +34,8 @@
       "allowExpressions": true,
       "allowTypedFunctionExpressions": true
     }],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/jsx-curly-spacing": ["error", "always"]
   },
   "env": {
     "es6": true,

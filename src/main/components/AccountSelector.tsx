@@ -83,7 +83,7 @@ export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
               <DropDownListItem
                 isLoggedIn={ userId === currentUserId }
                 key={ index }
-                onClick={() => changeUser(index)}
+                onClick={ () => changeUser(index) }
               >
                 @{ user.screenName }
               </DropDownListItem>

@@ -106,7 +106,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
         ),
       ))();
 
-      const { users, count } = await browser.storage.local.get({users: {}, count: 0});
+      const { users, count } = await browser.storage.local.get({ users: {}, count: 0 });
 
       await browser.storage.local.set({
         count: count + 1,

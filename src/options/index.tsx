@@ -19,7 +19,7 @@ browser.runtime.onMessage.addListener(async (message) => {
       } = await browser.storage.local.get('tokens') as TwiterianStorage;
 
       await browser.tabs.create({
-        url: `https://api.twitter.com/oauth/authorize?oauth_token=${oauthToken}`,
+        url: `https://api.twitter.com/oauth/authorize?oauth_token=${ oauthToken }`,
       });
       break;
     }
