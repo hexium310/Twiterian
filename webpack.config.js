@@ -1,5 +1,5 @@
-import path from 'path'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const loaders = {
   typescript: {
@@ -8,13 +8,13 @@ const loaders = {
   html: {
     loader: 'html-loader',
   },
-}
+};
 
-export default (env, argv) => {
+module.exports = (env, argv) => {
   const outdir = {
     development: 'dist',
     production: 'releases/src',
-  }[argv.mode] || 'dist'
+  }[argv.mode] || 'dist';
 
   return {
     entry: {
@@ -58,5 +58,5 @@ export default (env, argv) => {
     node: {
       fs: 'empty',
     },
-  }
-}
+  };
+};
