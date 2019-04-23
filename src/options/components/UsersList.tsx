@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { browser } from 'webextension-polyfill-ts';
 
-export interface UsersListProps {
+interface UsersListProps {
   setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
