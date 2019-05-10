@@ -37,6 +37,14 @@
     "react/prop-types": "off",
     "react/jsx-curly-spacing": ["error", "always"]
   },
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ],
   "env": {
     "es6": true,
     "node": true,

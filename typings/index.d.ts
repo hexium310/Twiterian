@@ -1,20 +1,20 @@
 interface User {
-  screenName: string
-  userId?: string
-  access_token?: string
-  accessToken?: string
-  access_token_secret?: string
-  accessTokenSecret?: string
-  orderBy: number
+  screenName: string;
+  userId?: string;
+  access_token?: string;
+  accessToken?: string;
+  access_token_secret?: string;
+  accessTokenSecret?: string;
+  orderBy: number;
 }
 
 interface Users {
-  [userId?: string]: User
+  [userId?: string]: User;
 }
 
 interface Tokens {
-  oauthToken?: string
-  oauthTokenSecret?: string
+  oauthToken?: string;
+  oauthTokenSecret?: string;
 }
 
 interface UserDetails {
@@ -33,27 +33,27 @@ interface AccessTokens {
 }
 
 interface TwiterianStore {
-  currentUserId?: string
+  currentUserId?: string;
   users: {
-    [userId: string]: User
-  }
+    [userId: string]: User;
+  };
 }
 
 interface TwiterianStorage extends TwiterianStore {
-  count: number
-  tokens: Tokens
+  count: number;
+  tokens: Tokens;
 }
 
 interface Media {
-  media_id: number
-  media_id_string: string
-  size: number
-  expires_after_secs: number
+  media_id: number;
+  media_id_string: string;
+  size: number;
+  expires_after_secs: number;
   image: {
-    image_type: string
-    w: number
-    h: number
-  }
+    image_type: string;
+    w: number;
+    h: number;
+  };
 }
 
 type Image = string;
