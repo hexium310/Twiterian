@@ -49,18 +49,14 @@ const Button = styled.button`
 export const UsersList: React.FunctionComponent<UsersListProps> = ({
   setIsShown,
 }): React.ReactElement => {
-  const [users, setUsers] = React.useState<Users>({});
+  const [users, setUsers] = React.useState<Users>([]);
 
   React.useEffect(() => {
     (async () => {
-      const { users } = await browser.storage.local.get({ users: {} });
-      setUsers(users);
+      const { users: storedUsers } = await browser.storage.local.get({ users: [] });
+      setUsers(storedUsers);
     })();
   }, [setUsers]);
-
-  const sortedUsers = Object.entries(users)
-    .filter(([k, ]) => k !== 'currentUserId')
-    .sort(([, v], [, v2]) => v.orderBy - v2.orderBy);
 
   const addAccount = (): void => {
     setIsShown(true);
@@ -70,14 +66,14 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
     });
   };
 
-  const removeAccount = (userId: string): void => {
-    delete users[userId];
-    setUsers(users);
+  const removeAccount = (id: string): void => {
+    const deletedUsers = users.filter((user) => user.id !== id);
+    setUsers(deletedUsers);
 
     browser.runtime.sendMessage({
       type: 'RemoveAccount',
       data: {
-        users,
+        users: deletedUsers,
       },
     });
   };
@@ -88,14 +84,14 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
       <UsersListTable id="usersList">
         <tbody>
           {
-            sortedUsers.map(([userId, value], index) => (
+            users.map((user, index) => (
               <tr key={ index }>
                 <td>
-                  <Button onClick={ () => removeAccount(userId) }>
+                  <Button onClick={ () => removeAccount(user.id) }>
                     <i className="fa fa-times fa-2x"></i>
                   </Button>
                 </td>
-                <td>{ value.screenName }</td>
+                <td>{ user.screenName }</td>
               </tr>
             ))
           }

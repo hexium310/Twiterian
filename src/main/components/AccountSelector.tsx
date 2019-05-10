@@ -4,8 +4,8 @@ import { browser } from 'webextension-polyfill-ts';
 
 interface AccountSelectorProps {
   users: Users;
-  currentUserId: string;
-  setCurrentUserId: React.Dispatch<React.SetStateAction<string>>;
+  currentUserIndex: number;
+  setCurrentUserIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface DropDownListItemProps {
@@ -54,23 +54,16 @@ const LoggedInUser = styled.span`
 
 export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
   users,
-  currentUserId,
-  setCurrentUserId,
+  currentUserIndex,
+  setCurrentUserIndex,
 }): React.ReactElement => {
   const [isShow, setIsShow] = React.useState(false);
 
-  const sortedUsers = Object.entries(users)
-    .filter(([k, ]) => k !== 'currentUserId')
-    .sort(([, v], [, v2]) => v.orderBy - v2.orderBy);
-
   const changeUser = async (index: number): Promise<void> => {
-    const changedUserId = sortedUsers[index][0];
-
     await browser.storage.local.set({
-      currentUserId: changedUserId,
+      currentUserIndex: index,
     });
-
-    setCurrentUserId(changedUserId);
+    setCurrentUserIndex(index);
   };
 
   return (
@@ -79,9 +72,9 @@ export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
       <DropDown onClick={ () => setIsShow(!isShow) }>
         { isShow &&
           <DropDownList>
-            { sortedUsers.map(([userId, user], index) => (
+            { users.map((user, index) => (
               <DropDownListItem
-                isLoggedIn={ userId === currentUserId }
+                isLoggedIn={ index === currentUserIndex }
                 key={ index }
                 onClick={ () => changeUser(index) }
               >
@@ -90,9 +83,9 @@ export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
             )) }
           </DropDownList>
         }
-        { !isShow &&
+        { !isShow && users.length !== 0 &&
           <LoggedInUser>
-            @{ users && currentUserId && users[currentUserId].screenName } <i className="fa fa-caret-down"></i>
+            @{ users[currentUserIndex].screenName } <i className="fa fa-caret-down"></i>
           </LoggedInUser>
         }
       </DropDown>

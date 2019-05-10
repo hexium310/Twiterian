@@ -4,12 +4,10 @@ import OAuth from 'oauth';
 
 import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '../config.json';
 
-// Since currentUserId was moved to the storage root, delete users.currentUserId.
 (async () => {
-  const { users }: TwiterianStore = await browser.storage.local.get('users') as TwiterianStorage;
-  if (typeof users.currentUserId !== 'undefined') {
-    delete users.currentUserId;
-    browser.storage.local.set({ users });
+  const { users } = await browser.storage.local.get({ users: [] });
+  if (!Array.isArray(users)) {
+    browser.storage.local.clear();
   }
 })();
 
@@ -88,9 +86,9 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
       const {
         accessToken,
         accessTokenSecret,
-        userId,
+        id,
         screenName,
-      } = await (() => new Promise<AccessTokens & UserDetails>(
+      } = await (() => new Promise<User>(
         (resolve) => oa.getOAuthAccessToken(
           oauthToken,
           oauthTokenSecret,
@@ -100,25 +98,24 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
               accessToken: token,
               accessTokenSecret: tokenSecret,
               screenName: results.screen_name,
-              userId: results.user_id,
+              id: results.user_id,
             });
           },
         ),
       ))();
 
-      const { users, count } = await browser.storage.local.get({ users: {}, count: 0 });
+      const { users } = await browser.storage.local.get({ users: [] });
 
       await browser.storage.local.set({
-        count: count + 1,
-        users: {
-          [userId]: {
-            access_token: accessToken,
-            access_token_secret: accessTokenSecret,
-            orderBy: count,
-            screenName,
-          },
+        users: [
           ...(users),
-        },
+          {
+            screenName,
+            id,
+            accessToken,
+            accessTokenSecret,
+          },
+        ],
       });
 
       browser.tabs.sendMessage(sender.tab.id as number, {
