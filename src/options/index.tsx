@@ -14,8 +14,8 @@ browser.runtime.onMessage.addListener(async (message) => {
     case 'GotOAuthToken': {
       const {
         tokens: {
-          oauthToken
-        }
+          oauthToken,
+        },
       } = await browser.storage.local.get('tokens');
 
       await browser.tabs.create({

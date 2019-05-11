@@ -8,7 +8,7 @@ const target = `./releases/${require('../package').version}.zip`;
 
 const addFile = async () => {
   for (let file of await glob('releases/src/**', {
-    nodir: true
+    nodir: true,
   })) {
     const [, ...filename] = file.split(path.sep);
 

@@ -88,7 +88,7 @@ export const Modal: React.FunctionComponent<ModalPorps> = ({
       tokens: {
         oauthToken,
         oauthTokenSecret,
-      }
+      },
     } = await browser.storage.local.get('tokens');
 
     browser.runtime.sendMessage({
