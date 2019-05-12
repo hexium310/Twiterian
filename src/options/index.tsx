@@ -14,12 +14,12 @@ browser.runtime.onMessage.addListener(async (message) => {
     case 'GotOAuthToken': {
       const {
         tokens: {
-          oauthToken
-        }
-      } = await browser.storage.local.get('tokens') as TwiterianStorage;
+          oauthToken,
+        },
+      } = await browser.storage.local.get('tokens');
 
       await browser.tabs.create({
-        url: `https://api.twitter.com/oauth/authorize?oauth_token=${oauthToken}`,
+        url: `https://api.twitter.com/oauth/authorize?oauth_token=${ oauthToken }`,
       });
       break;
     }

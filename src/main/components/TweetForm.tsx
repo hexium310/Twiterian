@@ -7,7 +7,7 @@ import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '
 
 interface TweetFormProps {
   users: Users;
-  currentUserId: string;
+  currentUserIndex: number;
 }
 
 interface TweetCounterProps {
@@ -37,20 +37,20 @@ const TweetButton = styled.button`
 
 export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
   users,
-  currentUserId
+  currentUserIndex,
 }): React.ReactElement => {
   const [tweet, setTweet] = React.useState('');
   const [tweetCount, setTweetCount] = React.useState(140);
   const [images, setImages] = React.useState<Image[]>([]);
 
   const postTweet = (): void => {
-    const { access_token, access_token_secret } = users[currentUserId];
+    const { accessToken, accessTokenSecret } = users[currentUserIndex];
     browser.runtime.sendMessage({
       keys: {
         consumer_key: consumerKey,
         consumer_secret: consumerSecret,
-        access_token_key: access_token,
-        access_token_secret,
+        access_token_key: accessToken,
+        access_token_secret: accessTokenSecret,
       },
       tweet: {
         status: tweet,

@@ -16,8 +16,8 @@ export const App: React.FunctionComponent = (): React.ReactElement => {
   return (
     <>
       <GlobalStlye />
-      <UsersList setIsShown={setIsShown} />
-      { isShown && <Modal setIsShown={setIsShown} /> }
+      <UsersList setIsShown={ setIsShown } />
+      { isShown && <Modal setIsShown={ setIsShown } /> }
     </>
   );
 };

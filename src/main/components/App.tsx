@@ -4,32 +4,30 @@ import { browser } from 'webextension-polyfill-ts';
 import { AccountSelector } from './AccountSelector';
 import { TweetForm } from './TweetForm';
 
+// TODO: Use reducer and context of React Hooks for users.
 export const App = (): React.ReactElement => {
-  const [users, setUsers] = React.useState<Users>({});
-  const [currentUserId, setCurrentUserId] = React.useState<string>('');
+  const [users, setUsers] = React.useState<Users>([]);
+  const [currentUserIndex, setCurrentUserIndex] = React.useState<number>(0);
 
   React.useEffect(() => {
     (async () => {
       const {
-        users,
-        currentUserId,
+        users: storedUsers,
+        currentUserIndex :storedCurrentUserIndex,
       } = await browser.storage.local.get({
-        users: {},
-        currentUserId: '',
-      }) as TwiterianStore;
-      const sortedUsers = Object.entries(users)
-        .filter(([k, ]) => k !== 'currentUserId')
-        .sort(([, v], [, v2]) => v.orderBy - v2.orderBy);
+        users: [],
+        currentUserIndex: 0,
+      });
 
-      setUsers(users);
-      setCurrentUserId(currentUserId || sortedUsers[0][0]);
+      Array.isArray(storedUsers) && setUsers(storedUsers);
+      typeof currentUserIndex === 'number' && setCurrentUserIndex(storedCurrentUserIndex);
     })();
-  }, [setUsers, setCurrentUserId]);
+  }, [setUsers, setCurrentUserIndex]);
 
   return (
     <>
-      <AccountSelector users={ users } currentUserId={ currentUserId } setCurrentUserId={ setCurrentUserId } />
-      <TweetForm users={ users } currentUserId={ currentUserId } />
+      <AccountSelector users={ users } currentUserIndex={ currentUserIndex } setCurrentUserIndex={ setCurrentUserIndex } />
+      <TweetForm users={ users } currentUserIndex={ currentUserIndex } />
     </>
   );
 };
