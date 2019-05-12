@@ -54,7 +54,7 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
   React.useEffect(() => {
     (async () => {
       const { users: storedUsers } = await browser.storage.local.get({ users: [] });
-      setUsers(storedUsers);
+      Array.isArray(storedUsers) && setUsers(storedUsers);
     })();
   }, [setUsers]);
 

@@ -19,8 +19,8 @@ export const App = (): React.ReactElement => {
         currentUserIndex: 0,
       });
 
-      setUsers(storedUsers);
-      setCurrentUserIndex(storedCurrentUserIndex);
+      Array.isArray(storedUsers) && setUsers(storedUsers);
+      typeof currentUserIndex === 'number' && setCurrentUserIndex(storedCurrentUserIndex);
     })();
   }, [setUsers, setCurrentUserIndex]);
 

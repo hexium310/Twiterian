@@ -6,9 +6,7 @@ import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '
 
 (async () => {
   const { users } = await browser.storage.local.get({ users: [] });
-  if (!Array.isArray(users)) {
-    browser.storage.local.clear();
-  }
+  !Array.isArray(users) && browser.storage.local.clear();
 })();
 
 const oa = new OAuth.OAuth(
@@ -108,7 +106,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 
       await browser.storage.local.set({
         users: [
-          ...(users),
+          ...(Array.isArray(users) ? users : []),
           {
             screenName,
             id,
