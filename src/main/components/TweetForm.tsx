@@ -43,6 +43,17 @@ export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
   const [tweetCount, setTweetCount] = React.useState(140);
   const [images, setImages] = React.useState<Image[]>([]);
 
+  React.useEffect(() => {
+    (async () => {
+      const { images: storedImages } = await browser.storage.local.get(({ images: [] }));
+      Array.isArray(storedImages) && setImages(storedImages);
+    })();
+  }, [setImages]);
+
+  React.useEffect(() => {
+    browser.storage.local.set(({ images }));
+  }, [images]);
+
   const postTweet = (): void => {
     const { accessToken, accessTokenSecret } = users[currentUserIndex];
     browser.runtime.sendMessage({
@@ -84,7 +95,6 @@ export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
       const image = fileReader.result;
       typeof image === 'string' && setImages([...images, image]);
     };
-
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {

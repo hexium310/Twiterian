@@ -13,6 +13,7 @@
   },
   "permissions": [
     "storage",
+    "unlimitedStorage",
     "tabs",
     "clipboardRead",
     "*://*.twitter.com/*"
