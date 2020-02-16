@@ -31,10 +31,13 @@
         "ignoreDestructuring": true
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": ["warn", {
-      "allowExpressions": true,
-      "allowTypedFunctionExpressions": true
-    }],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true,
+        "allowTypedFunctionExpressions": true
+      }
+    ],
     "react/prop-types": "off",
     "react/jsx-curly-spacing": ["error", "always"]
   },
@@ -42,7 +45,8 @@
     {
       "files": ["**/*.js"],
       "rules": {
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
       }
     }
   ],
