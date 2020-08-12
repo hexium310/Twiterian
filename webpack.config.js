@@ -7,6 +7,9 @@ const loaders = {
   },
   html: {
     loader: 'html-loader',
+    options: {
+      attributes: false,
+    },
   },
 };
 
