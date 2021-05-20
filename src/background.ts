@@ -1,5 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
-import twitter from 'twitter';
+import { TwitterClient } from 'twitter-api-client';
 import OAuth from 'oauth';
 
 import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '../config.json';
@@ -23,22 +23,22 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
     const { access_token_key , access_token_secret } = message.keys;
 
-    const client = new twitter({
-      access_token_key,
-      access_token_secret,
-      consumer_key: consumerKey,
-      consumer_secret: consumerSecret,
+    const client = new TwitterClient({
+      accessToken: access_token_key,
+      accessTokenSecret: access_token_secret,
+      apiKey: consumerKey,
+      apiSecret: consumerSecret,
     });
 
     const media = await Promise.all<Media>(
       message.tweet.media.map(
-        (medium: string) => client.post('media/upload.json', {
+        (medium: string) => client.media.mediaUpload({
           media_data: medium,
         }),
       ),
     );
 
-    await client.post('statuses/update', {
+    await client.tweets.statusesUpdate({
       media_ids: media.map((res) => res.media_id_string).join(','),
       status: message.tweet.status,
     });

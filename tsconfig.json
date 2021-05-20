@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "typeRoots": ["./typings"],
+    "typeRoots": ["./typings", "./node_modules/@types"],
     "module": "esnext",
     "target": "es6",
     "jsx": "react",

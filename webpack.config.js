@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const loaders = {
@@ -8,7 +9,7 @@ const loaders = {
   html: {
     loader: 'html-loader',
     options: {
-      attributes: false,
+      sources: false,
     },
   },
 };
@@ -27,6 +28,16 @@ module.exports = (env, argv) => {
     },
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.json'],
+      fallback: {
+        crypto: require.resolve('crypto-browserify'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
+        stream: require.resolve('stream-browserify'),
+      },
+      alias: {
+        buffer: 'buffer',
+        process: 'process/browser.js',
+      },
     },
     output: {
       path: path.resolve(__dirname, outdir),
@@ -46,7 +57,12 @@ module.exports = (env, argv) => {
         },
       ],
     },
+    devtool: false,
     plugins: [
+      new webpack.ProvidePlugin({
+        process: 'process/browser.js',
+        Buffer: ['buffer', 'Buffer'],
+      }),
       new HtmlWebpackPlugin({
         inject: false,
         filename: 'options/index.html',
@@ -58,8 +74,5 @@ module.exports = (env, argv) => {
         template: 'src/main/index.html',
       }),
     ],
-    node: {
-      fs: 'empty',
-    },
   };
 };
