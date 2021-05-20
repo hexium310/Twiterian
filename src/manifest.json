@@ -1,22 +1,25 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Twiterian",
   "description": "Tweet with images at popup window.",
-  "version": "0.1.3",
-  "browser_action": {
+  "version": "0.2.0",
+  "action": {
     "default_popup": "main/index.html"
   },
   "options_page": "options/index.html",
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "permissions": [
     "storage",
     "unlimitedStorage",
     "tabs",
-    "clipboardRead",
-    "*://*.twitter.com/*"
+    "clipboardRead"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "host_permissions": [
+    "https://*.twitter.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

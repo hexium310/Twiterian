@@ -19,7 +19,7 @@ const oa = new OAuth.OAuth(
   'HMAC-SHA1'
 );
 
-browser.runtime.onMessage.addListener(async (message, sender) => {
+chrome.runtime.onMessage.addListener(async (message, sender) => {
   if (message.keys && message.tweet) {
     const { access_token_key , access_token_secret } = message.keys;
 
