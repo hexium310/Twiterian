@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { browser } from 'webextension-polyfill-ts';
 
 import { ImageList } from './ImageList';
-import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '../../../config.json';
+
+import config from '../../../config.json';
+const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
 
 interface TweetFormProps {
   users: Users;

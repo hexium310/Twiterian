@@ -2,7 +2,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { TwitterClient } from 'twitter-api-client';
 import OAuth from 'oauth';
 
-import { consumer_key as consumerKey, consumer_secret as consumerSecret } from '../config.json';
+import config from '../config.json';
+const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
 
 (async () => {
   const { users } = await browser.storage.local.get({ users: [] });
