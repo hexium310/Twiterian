@@ -25,9 +25,9 @@ export const App = (): React.ReactElement => {
   }, [setUsers, setCurrentUserIndex]);
 
   return (
-    <>
+    <div className="m-2 flex flex-col">
       <AccountSelector users={ users } currentUserIndex={ currentUserIndex } setCurrentUserIndex={ setCurrentUserIndex } />
       <TweetForm users={ users } currentUserIndex={ currentUserIndex } />
-    </>
+    </div>
   );
 };

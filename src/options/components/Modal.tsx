@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
 
 import config from '../../../config.json';
@@ -8,72 +8,6 @@ const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
 export interface ModalPorps {
   setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const ModalOverlay = styled.div`
-  display: flex;
-  background-color: rgba(0, 0, 0, 0.2);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-`;
-
-const ModalCloseDiv = styled.div`
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 100;
-`;
-
-const ModalContent = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 600px;
-  height: 300px;
-  z-index: 101;
-  background-color: white;
-  transform: translate(-50%, -50%);
-`;
-
-const ModalBody = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
-
-  input {
-    width: 3.5em;
-  }
-`;
-
-const ModalFooter = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const PostButton = styled.button`
-  height: 40px;
-  width: 100px;
-  margin-bottom: 10px;
-  padding: 0.3em 1em;
-  font-size: 20px;
-  color: deepskyblue;
-  text-decoration: none;
-  border: solid 2px deepskyblue;
-  border-radius: 3px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 export const Modal: React.FunctionComponent<ModalPorps> = ({
   setIsShown,
@@ -105,19 +39,79 @@ export const Modal: React.FunctionComponent<ModalPorps> = ({
   };
 
   return (
-    <ModalOverlay>
-      <ModalCloseDiv onClick={ () => setIsShown(false) }></ModalCloseDiv>
-      <ModalContent>
-        <ModalBody>
-          <label>
-            PIN:
-            <input type="text" value={ pin } onChange={ (e) => handlePINChange(e) }/>
-          </label>
-        </ModalBody>
-        <ModalFooter>
-          <PostButton onClick={ () => postPIN() }>OK</PostButton>
-        </ModalFooter>
-      </ModalContent>
-    </ModalOverlay>
+    <div className={ cntl`
+      flex
+      fixed
+      top-0
+      left-0
+      w-screen
+      h-screen
+      bg-black
+      bg-opacity-20
+      justify-center
+      items-center
+    ` }>
+      <div
+        className={ cntl`
+          block
+          fixed
+          top-0
+          left-0
+          w-screen
+          h-screen
+          z-40
+        ` }
+        onClick={ () => setIsShown(false) }
+      ></div>
+      <div className={ cntl`
+        flex
+        p-8
+        top-2/4
+        left-2/4
+        bg-white
+        z-50
+        flex-col
+        items-center
+      ` }>
+        <h2 className={ cntl`
+          text-4xl
+          text-center
+          w-full
+          border-b-2
+          border-divide-gray-400
+        ` }>
+          PIN
+        </h2>
+        <div>
+          <input
+            className={ cntl`
+              my-4
+              border
+              border-solid
+              border-gray-600
+              text-center
+            ` }
+            type="text"
+            value={ pin }
+            placeholder="Input PIN here"
+            onChange={ (e) => handlePINChange(e) }
+          />
+        </div>
+        <div>
+          <button
+            className={ cntl`
+              w-24
+              py-1
+              text-xl
+              border-2
+              border-solid
+              border-blue-400
+              text-blue-400
+            ` }
+            onClick={ () => postPIN() }
+          >OK</button>
+        </div>
+      </div>
+    </div>
   );
 };

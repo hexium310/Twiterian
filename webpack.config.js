@@ -2,8 +2,26 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const TailwindCSS = require('tailwindcss');
 
 const loaders = {
+  css:{
+    loader: 'css-loader',
+  },
+  postcss: {
+    loader: 'postcss-loader',
+    options: {
+      postcssOptions: {
+        ident: 'postcss',
+        plugins: [
+          new TailwindCSS(),
+        ],
+      },
+    },
+  },
+  style:{
+    loader: 'style-loader',
+  },
   typescript: {
     loader: 'ts-loader',
     options: {
@@ -51,6 +69,10 @@ module.exports = (_, argv) => {
           test: /\.tsx?$/,
           exclude: /node_modules/,
           use: loaders.typescript,
+        },
+        {
+          test: /\.css$/,
+          use: [loaders.style, loaders.css, loaders.postcss],
         },
         {
           test: /\.html$/,

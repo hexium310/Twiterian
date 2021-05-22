@@ -1,49 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import cntl from 'cntl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { browser } from 'webextension-polyfill-ts';
 
 interface UsersListProps {
   setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Main = styled.div`
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  border: 1px solid darkgray;
-`;
-
-const Title = styled.h2`
-  margin-top: 20px;
-  margin-bottom: 0;
-  margin-left: 10px;
-  padding-left: 5px;
-`;
-
-const UsersListTable = styled.table`
-  border-spacing: 0;
-  margin: 10px;
-
-  td {
-    padding: 5px;
-
-    &:first-child {
-      text-align: center;
-    }
-  }
-`;
-
-const Button = styled.button`
-  background-color: transparent;
-  border: none;
-  outline: none;
-  padding: 0;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
+const buttonClassNames = cntl`
+  hover:text-red-500
 `;
 
 export const UsersList: React.FunctionComponent<UsersListProps> = ({
@@ -79,31 +45,32 @@ export const UsersList: React.FunctionComponent<UsersListProps> = ({
   };
 
   return (
-    <Main>
-      <Title>Users</Title>
-      <UsersListTable id="usersList">
-        <tbody>
-          {
-            users.map((user, index) => (
-              <tr key={ index }>
-                <td>
-                  <Button onClick={ () => removeAccount(user.id) }>
-                    <i className="fa fa-times fa-2x"></i>
-                  </Button>
-                </td>
-                <td>{ user.screenName }</td>
-              </tr>
-            ))
-          }
-          <tr>
-            <td>
-              <Button onClick={ () => addAccount() }>
-                <i className="fa fa-plus fa-2x"></i>
-              </Button>
-            </td>
-          </tr>
-        </tbody>
-      </UsersListTable>
-    </Main>
+    <div className={ cntl`
+      mt-28
+      w-2/3
+      border
+      border-solid
+      border-gray-400
+    ` }>
+      <h1 className={ cntl`m-4` }>Users</h1>
+      <div id="usersList" className={ cntl`flex flex-col m-4` }>
+        {
+          users.map((user, index) => (
+            <div key={ index } className={ cntl`flex items-center` }
+            >
+              <button className={ buttonClassNames } onClick={ () => removeAccount(user.id) }>
+                <FontAwesomeIcon icon={ faTimes } size="2x" className="fa-fw" />
+              </button>
+              <span>{ user.screenName }</span>
+            </div>
+          ))
+        }
+        <div>
+          <button className={ buttonClassNames } onClick={ () => addAccount() }>
+            <FontAwesomeIcon icon={ faPlus } size="2x" className="fa-fw" />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
 
 import { ImageList } from './ImageList';
@@ -11,31 +11,6 @@ interface TweetFormProps {
   users: Users;
   currentUserIndex: number;
 }
-
-interface TweetCounterProps {
-  valid: boolean;
-}
-
-const TweetArea = styled.label`
-  display: flex;
-  align-items: flex-end;
-`;
-
-const TweetBox = styled.textarea`
-  resize: none;
-  width: 350px;
-  height: 100px;
-`;
-
-const TweetCounter = styled.span`
-  width: 50px;
-  text-align: center;
-  color: ${ ({ valid }: TweetCounterProps) => valid ? 'black' : 'red' };
-`;
-
-const TweetButton = styled.button`
-  float: right;
-`;
 
 export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
   users,
@@ -105,18 +80,32 @@ export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
 
   return (
     <>
-      <TweetArea>
-        <TweetBox
+      <label className="flex items-end mb-1">
+        <textarea
+          className="resize-none w-96 h-32 border border-black"
           value={ tweet }
           autoFocus={ true }
           onChange={ (e) => handleTweetChange(e) }
           onPaste={ (e) => handlePaste(e) }
           onKeyDown={ (e) => handleKeyDown(e) }
         />
-        <TweetCounter valid={ tweetCount >= 0 }>{ tweetCount }</TweetCounter>
-      </TweetArea>
+        <span
+          className={ cntl`w-12 text-center ${ tweetCount >= 0 ? 'text-black' : 'text-red-600' }` }
+        >{ tweetCount }</span>
+      </label>
       <ImageList images={ images } setImages={ setImages } />
-      <TweetButton onClick={ () => postTweet() }>POST</TweetButton>
+      <button
+        className={ cntl`
+          mt-1
+          py-1
+          px-2
+          self-end
+          border
+          border-gray-400
+          rounded-sm
+        ` }
+        onClick={ () => postTweet() }
+      >POST</button>
     </>
   );
 };
