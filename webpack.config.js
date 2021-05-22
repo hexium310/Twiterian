@@ -1,10 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const loaders = {
   typescript: {
     loader: 'ts-loader',
+    options: {
+      transpileOnly: true,
+    },
   },
   html: {
     loader: 'html-loader',
@@ -14,11 +18,9 @@ const loaders = {
   },
 };
 
-module.exports = (env, argv) => {
-  const outdir = {
-    development: 'dist',
-    production: 'releases/src',
-  }[argv.mode] || 'dist';
+module.exports = (_, argv) => {
+  const isDevelopment = argv.mode === 'development';
+  const outdir = isDevelopment ? 'dist' : 'releases/src';
 
   return {
     entry: {
@@ -62,6 +64,17 @@ module.exports = (env, argv) => {
       new webpack.ProvidePlugin({
         process: 'process/browser.js',
         Buffer: ['buffer', 'Buffer'],
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        async: isDevelopment,
+        typescript: {
+          configOverwrite: {
+            compilerOptions: {
+              noUnusedLocals: false,
+              sourceMap: false,
+            },
+          },
+        },
       }),
       new HtmlWebpackPlugin({
         inject: false,

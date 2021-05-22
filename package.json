@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
     "watch:manifest": "cpx -w src/manifest.json dist/",
-    "watch:contents": "webpack --watch --mode development"
+    "watch:contents": "TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling webpack --watch --mode development"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.141",
@@ -34,6 +34,7 @@
     "crypto-browserify": "^3.12.0",
     "eslint": "^7.26.0",
     "eslint-plugin-react": "^7.23.2",
+    "fork-ts-checker-webpack-plugin": "^6.2.10",
     "glob": "^7.1.7",
     "glob-promise": "^4.1.0",
     "html-loader": "^2.1.2",
