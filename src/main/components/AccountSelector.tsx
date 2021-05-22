@@ -1,5 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import cntl from 'cntl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { browser } from 'webextension-polyfill-ts';
 
 interface AccountSelectorProps {
@@ -8,12 +10,11 @@ interface AccountSelectorProps {
   setCurrentUserIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const AccountSelectorWrapper = styled.div`
-  margin: 5px;
-`;
-
-const Selector = styled.select`
-  margin-left: 5px;
+const buttonClassNames = cntl`
+  mr-1
+  border
+  border-gray-500
+  rounded-sm
 `;
 
 export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
@@ -44,17 +45,26 @@ export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
   };
 
   return (
-    <AccountSelectorWrapper>
+    <div className="mb-1">
       User
-      <Selector name="account" value={ currentUserIndex } onChange={ (event) => changeToSelectedUser(event) }>
+      <select
+        className="ml-2 mr-1 border border-gray-500 rounded-sm"
+        name="account"
+        value={ currentUserIndex }
+        onChange={ (event) => changeToSelectedUser(event) }
+      >
         {
           users.map((user, index) => (
             <option key={ index } value={ index }>@{ user.screenName }</option>
           ))
         }
-      </Selector>
-      <button onClick={ () => changeToNextUser() }>↓</button>
-      <button onClick={ () => changeToPreviousUser() }>↑</button>
-    </AccountSelectorWrapper>
+      </select>
+      <button className={ buttonClassNames } onClick={ () => changeToNextUser() }>
+        <FontAwesomeIcon icon={ faArrowDown } className="fa-fw" />
+      </button>
+      <button className={ buttonClassNames } onClick={ () => changeToPreviousUser() }>
+        <FontAwesomeIcon icon={ faArrowUp } className="fa-fw" />
+      </button>
+    </div>
   );
 };
