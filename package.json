@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/hexium310/Twiterian",
   "scripts": {
-    "build": "run-s lint clean:release copy:manifest && webpack --mode production",
+    "build": "run-s lint clean:release copy:manifest && NODE_ENV=production webpack --mode production",
     "build:dev": "webpack --mode development && cpx src/manifest.json dist/",
     "clean": "run-p clean:*",
     "clean:dev": "rimraf dist/",
