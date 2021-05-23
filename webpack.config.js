@@ -49,7 +49,7 @@ module.exports = (_, argv) => {
     resolve: {
       extensions: ['.js', '.ts', '.tsx', '.json'],
       fallback: {
-        crypto: require.resolve('crypto-browserify'),
+        crypto: path.resolve(__dirname, 'utils/hmac'),
         http: require.resolve('stream-http'),
         https: require.resolve('https-browserify'),
         stream: require.resolve('stream-browserify'),
