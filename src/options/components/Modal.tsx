@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -6,15 +6,15 @@ import config from '../../../config.json';
 const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
 
 export interface ModalPorps {
-  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShown: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Modal: React.FunctionComponent<ModalPorps> = ({
+export const Modal: FC<ModalPorps> = ({
   setIsShown,
-}): React.ReactElement => {
-  const [pin, setPIN] = React.useState('');
+}) => {
+  const [pin, setPIN] = useState('');
 
-  const handlePINChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handlePINChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setPIN(event.target.value);
   };
 

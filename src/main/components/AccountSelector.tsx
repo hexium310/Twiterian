@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import { browser } from 'webextension-polyfill-ts';
 interface AccountSelectorProps {
   users: Users;
   currentUserIndex: number;
-  setCurrentUserIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentUserIndex: Dispatch<SetStateAction<number>>;
 }
 
 const buttonClassNames = cntl`
@@ -17,11 +17,11 @@ const buttonClassNames = cntl`
   rounded-sm
 `;
 
-export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
+export const AccountSelector: FC<AccountSelectorProps> = ({
   users,
   currentUserIndex,
   setCurrentUserIndex,
-}): React.ReactElement => {
+}) => {
   const changeUser = async (index: number): Promise<void> => {
     await browser.storage.local.set({
       currentUserIndex: index,
@@ -29,7 +29,7 @@ export const AccountSelector: React.FunctionComponent<AccountSelectorProps> = ({
     setCurrentUserIndex(index);
   };
 
-  const changeToSelectedUser = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const changeToSelectedUser = (event: ChangeEvent<HTMLSelectElement>): void => {
     const userIndex = Number(event.target.value);
     changeUser(userIndex);
   };

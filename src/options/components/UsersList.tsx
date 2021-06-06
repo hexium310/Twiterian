@@ -1,23 +1,23 @@
-import React from 'react';
+import { useState, useEffect, FC, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { browser } from 'webextension-polyfill-ts';
 
 interface UsersListProps {
-  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShown: Dispatch<SetStateAction<boolean>>;
 }
 
 const buttonClassNames = cntl`
   hover:text-red-500
 `;
 
-export const UsersList: React.FunctionComponent<UsersListProps> = ({
+export const UsersList: FC<UsersListProps> = ({
   setIsShown,
-}): React.ReactElement => {
-  const [users, setUsers] = React.useState<Users>([]);
+}) => {
+  const [users, setUsers] = useState<Users>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const { users: storedUsers } = await browser.storage.local.get({ users: [] });
       Array.isArray(storedUsers) && setUsers(storedUsers);

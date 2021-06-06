@@ -1,14 +1,14 @@
-import React from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 
 interface ImageListProps {
   images: Image[];
-  setImages: React.Dispatch<React.SetStateAction<Image[]>>;
+  setImages: Dispatch<SetStateAction<Image[]>>;
 }
 
-export const ImageList: React.FunctionComponent<ImageListProps> = ({
+export const ImageList: FC<ImageListProps> = ({
   images,
   setImages,
-}): React.ReactElement => {
+}) => {
   const removeImage = (index: number): void => setImages(images.filter((_, i) => i !== index));
 
   return (

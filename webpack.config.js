@@ -4,41 +4,44 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TailwindCSS = require('tailwindcss');
 
-const loaders = {
-  css:{
-    loader: 'css-loader',
-  },
-  postcss: {
-    loader: 'postcss-loader',
-    options: {
-      postcssOptions: {
-        ident: 'postcss',
-        plugins: [
-          new TailwindCSS(),
-        ],
-      },
-    },
-  },
-  style:{
-    loader: 'style-loader',
-  },
-  typescript: {
-    loader: 'ts-loader',
-    options: {
-      transpileOnly: true,
-    },
-  },
-  html: {
-    loader: 'html-loader',
-    options: {
-      sources: false,
-    },
-  },
-};
-
 module.exports = (_, argv) => {
   const isDevelopment = argv.mode === 'development';
   const outdir = isDevelopment ? 'dist' : 'releases/src';
+
+  const loaders = {
+    css:{
+      loader: 'css-loader',
+    },
+    postcss: {
+      loader: 'postcss-loader',
+      options: {
+        postcssOptions: {
+          ident: 'postcss',
+          plugins: [
+            new TailwindCSS(),
+          ],
+        },
+      },
+    },
+    style:{
+      loader: 'style-loader',
+    },
+    typescript: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+        compilerOptions: {
+          jsx: isDevelopment ? 'react-jsxdev' : 'react-jsx',
+        },
+      },
+    },
+    html: {
+      loader: 'html-loader',
+      options: {
+        sources: false,
+      },
+    },
+  };
 
   return {
     entry: {

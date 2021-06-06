@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect, FC, ChangeEvent, ClipboardEvent, KeyboardEvent } from 'react';
 import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -12,22 +12,22 @@ interface TweetFormProps {
   currentUserIndex: number;
 }
 
-export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
+export const TweetForm: FC<TweetFormProps> = ({
   users,
   currentUserIndex,
-}): React.ReactElement => {
-  const [tweet, setTweet] = React.useState('');
-  const [tweetCount, setTweetCount] = React.useState(140);
-  const [images, setImages] = React.useState<Image[]>([]);
+}) => {
+  const [tweet, setTweet] = useState('');
+  const [tweetCount, setTweetCount] = useState(140);
+  const [images, setImages] = useState<Image[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const { images: storedImages } = await browser.storage.local.get(({ images: [] }));
       Array.isArray(storedImages) && setImages(storedImages);
     })();
   }, [setImages]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     browser.storage.local.set(({ images }));
   }, [images]);
 
@@ -50,13 +50,13 @@ export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
     setImages([]);
   };
 
-  const handleTweetChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+  const handleTweetChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     setTweet(value);
     setTweetCount(140 - value.length);
   };
 
-  const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>): void => {
+  const handlePaste = (event: ClipboardEvent<HTMLTextAreaElement>): void => {
     if (event.clipboardData.types[0] !== 'Files') {
       return;
     }
@@ -74,7 +74,7 @@ export const TweetForm: React.FunctionComponent<TweetFormProps> = ({
     };
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>): void => {
     event.key === 'Enter' && event.metaKey && postTweet();
   };
 

@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState, FC } from 'react';
 import cntl from 'cntl';
 
 import { UsersList } from '../components/UsersList';
 import { Modal } from '../components/Modal';
 
-export const App: React.FunctionComponent = (): React.ReactElement => {
-  const [isShown, setIsShown] = React.useState(false);
+export const App: FC = () => {
+  const [isShown, setIsShown] = useState(false);
 
   return (
     <div className={ cntl`flex justify-center items-center` }>
