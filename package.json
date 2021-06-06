@@ -7,7 +7,7 @@
   "repository": "https://github.com/hexium310/Twiterian",
   "scripts": {
     "build": "run-s lint clean:release copy:manifest && NODE_ENV=production webpack --mode production",
-    "build:dev": "webpack --mode development && cpx src/manifest.json dist/",
+    "build:dev": "NODE_ENV=development webpack --mode development && cpx src/manifest.json dist/",
     "clean": "run-p clean:*",
     "clean:dev": "rimraf dist/",
     "clean:release": "rimraf releases/src/",
@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "run-p watch:*",
     "watch:manifest": "cpx -w src/manifest.json dist/",
-    "watch:contents": "TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling webpack --watch --mode development"
+    "watch:contents": "NODE_ENV=development TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling webpack --watch --mode development"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
