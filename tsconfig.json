@@ -21,6 +21,7 @@
   ],
   "include": [
     "**/*.js",
+    "scripts/*.mjs",
     "./src/**/*",
     "./typings"
   ]

@@ -52,6 +52,7 @@
   },
   "parserOptions": {
     "project": "./tsconfig.json",
+    "extraFileExtensions": [".mjs"],
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
