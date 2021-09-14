@@ -112,5 +112,9 @@ module.exports = (_, argv) => {
         template: 'src/main/index.html',
       }),
     ],
+    stats: {
+      children: false,
+      modules: false,
+    },
   };
 };
