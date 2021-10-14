@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, FC, ChangeEvent, ClipboardEvent, KeyboardEvent } from 'react';
 import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
