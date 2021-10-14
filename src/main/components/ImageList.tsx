@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, Dispatch, SetStateAction } from 'react';
 
 interface ImageListProps {

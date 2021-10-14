@@ -1,6 +1,9 @@
 {
-  "root":  true,
-  "plugins": ["@typescript-eslint", "react"],
+  "root": true,
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
   "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
@@ -17,13 +20,34 @@
         ]
       }
     ],
-    "semi": ["error", "always"],
+    "semi": [
+      "error",
+      "always"
+    ],
     "no-extra-boolean-cast": "off",
-    "object-curly-spacing": ["error", "always"],
-    "arrow-parens": ["error", "always"],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
     "block-spacing": "error",
-    "comma-dangle": ["error", "always-multiline"],
-    "@typescript-eslint/indent": ["error", 2],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
@@ -32,13 +56,18 @@
       }
     ],
     "react/prop-types": "off",
-    "react/jsx-curly-spacing": ["error", "always"],
+    "react/jsx-curly-spacing": [
+      "error",
+      "always"
+    ],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   },
   "overrides": [
     {
-      "files": ["**/*.js"],
+      "files": [
+        "**/*.js"
+      ],
       "rules": {
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/explicit-function-return-type": "off"
@@ -52,11 +81,13 @@
   },
   "parserOptions": {
     "project": "./tsconfig.json",
-    "extraFileExtensions": [".mjs"],
+    "extraFileExtensions": [
+      ".mjs"
+    ],
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
-      "modules" :true
+      "modules": true
     }
   },
   "globals": {
