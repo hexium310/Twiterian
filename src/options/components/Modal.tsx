@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { browser } from 'webextension-polyfill-ts';
