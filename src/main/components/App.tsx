@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState, FC } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 

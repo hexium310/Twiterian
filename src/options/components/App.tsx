@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState, FC } from 'react';
 import cntl from 'cntl';
 
