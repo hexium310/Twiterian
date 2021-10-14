@@ -12,8 +12,8 @@
     "stream": "stream-browserify"
   },
   "scripts": {
-    "build": "run-s lint clean:release && NODE_ENV=production node --require esbuild-register scripts/build.ts",
-    "build:dev": "NODE_ENV=development node --require esbuild-register scripts/build.ts",
+    "build": "run-s lint clean:release && tsc --noEmit && NODE_ENV=production node --require esbuild-register scripts/build.ts",
+    "build:dev": "tsc --noEmit && NODE_ENV=development node --require esbuild-register scripts/build.ts",
     "clean": "run-p clean:*",
     "clean:dev": "rimraf dist/",
     "clean:release": "rimraf releases/src/",
