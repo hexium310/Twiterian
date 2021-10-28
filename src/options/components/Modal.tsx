@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
-import { browser } from 'webextension-polyfill-ts';
 
 import config from '../../../config.json';
 const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
@@ -25,9 +24,9 @@ export const Modal: FC<ModalPorps> = ({
         oauthToken,
         oauthTokenSecret,
       },
-    } = await browser.storage.local.get('tokens');
+    } = await chrome.storage.local.get('tokens');
 
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
       type: 'GetAccessToken',
       data: {
         consumer_key: consumerKey,

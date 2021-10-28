@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect, useState, FC } from 'react';
-import { browser } from 'webextension-polyfill-ts';
 
 import { AccountSelector } from './AccountSelector';
 import { TweetForm } from './TweetForm';
@@ -15,7 +14,7 @@ export const App: FC = () => {
       const {
         users: storedUsers,
         currentUserIndex :storedCurrentUserIndex,
-      } = await browser.storage.local.get({
+      } = await chrome.storage.local.get({
         users: [],
         currentUserIndex: 0,
       });

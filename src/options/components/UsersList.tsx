@@ -3,7 +3,6 @@ import { useState, useEffect, FC, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { browser } from 'webextension-polyfill-ts';
 
 interface UsersListProps {
   setIsShown: Dispatch<SetStateAction<boolean>>;
@@ -20,7 +19,7 @@ export const UsersList: FC<UsersListProps> = ({
 
   useEffect(() => {
     (async () => {
-      const { users: storedUsers } = await browser.storage.local.get({ users: [] });
+      const { users: storedUsers } = await chrome.storage.local.get({ users: [] });
       Array.isArray(storedUsers) && setUsers(storedUsers);
     })();
   }, [setUsers]);
@@ -28,7 +27,7 @@ export const UsersList: FC<UsersListProps> = ({
   const addAccount = (): void => {
     setIsShown(true);
 
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
       type: 'AddAccount',
     });
   };
@@ -37,7 +36,7 @@ export const UsersList: FC<UsersListProps> = ({
     const deletedUsers = users.filter((user) => user.id !== id);
     setUsers(deletedUsers);
 
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
       type: 'RemoveAccount',
       data: {
         users: deletedUsers,

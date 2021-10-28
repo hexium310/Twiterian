@@ -1,4 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
 import { TwitterClient } from 'twitter-api-client';
 import OAuth from 'oauth';
 
@@ -6,8 +5,8 @@ import config from '../config.json';
 const { consumer_key: consumerKey, consumer_secret: consumerSecret } = config;
 
 (async () => {
-  const { users } = await browser.storage.local.get({ users: [] });
-  !Array.isArray(users) && browser.storage.local.clear();
+  const { users } = await chrome.storage.local.get({ users: [] });
+  !Array.isArray(users) && chrome.storage.local.clear();
 })();
 
 const oa = new OAuth.OAuth(
@@ -65,14 +64,14 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
         ),
       ))();
 
-      await browser.storage.local.set({
+      await chrome.storage.local.set({
         tokens: {
           oauthToken: requestToken,
           oauthTokenSecret: requestTokenSecret,
         },
       });
 
-      browser.tabs.sendMessage(sender.tab.id as number, {
+      chrome.tabs.sendMessage(sender.tab.id as number, {
         type: 'GotOAuthToken',
       });
 
@@ -103,9 +102,9 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
         ),
       ))();
 
-      const { users } = await browser.storage.local.get({ users: [] });
+      const { users } = await chrome.storage.local.get({ users: [] });
 
-      await browser.storage.local.set({
+      await chrome.storage.local.set({
         users: [
           ...(Array.isArray(users) ? users : []),
           {
@@ -117,7 +116,7 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
         ],
       });
 
-      browser.tabs.sendMessage(sender.tab.id as number, {
+      chrome.tabs.sendMessage(sender.tab.id as number, {
         type: 'AddSuccess',
       });
 
@@ -125,7 +124,7 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
     }
 
     case 'RemoveAccount': {
-      await browser.storage.local.set({
+      await chrome.storage.local.set({
         users: message.data.users,
       });
 

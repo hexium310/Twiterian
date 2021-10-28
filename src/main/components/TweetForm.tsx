@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect, FC, ChangeEvent, ClipboardEvent, KeyboardEvent } from 'react';
 import cntl from 'cntl';
-import { browser } from 'webextension-polyfill-ts';
 
 import { ImageList } from './ImageList';
 
@@ -23,18 +22,18 @@ export const TweetForm: FC<TweetFormProps> = ({
 
   useEffect(() => {
     (async () => {
-      const { images: storedImages } = await browser.storage.local.get(({ images: [] }));
+      const { images: storedImages } = await chrome.storage.local.get(({ images: [] }));
       Array.isArray(storedImages) && setImages(storedImages);
     })();
   }, [setImages]);
 
   useEffect(() => {
-    browser.storage.local.set(({ images }));
+    chrome.storage.local.set(({ images }));
   }, [images]);
 
   const postTweet = (): void => {
     const { accessToken, accessTokenSecret } = users[currentUserIndex];
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
       keys: {
         consumer_key: consumerKey,
         consumer_secret: consumerSecret,

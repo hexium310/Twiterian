@@ -3,7 +3,6 @@ import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import cntl from 'cntl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { browser } from 'webextension-polyfill-ts';
 
 interface AccountSelectorProps {
   users: Users;
@@ -24,7 +23,7 @@ export const AccountSelector: FC<AccountSelectorProps> = ({
   setCurrentUserIndex,
 }) => {
   const changeUser = async (index: number): Promise<void> => {
-    await browser.storage.local.set({
+    await chrome.storage.local.set({
       currentUserIndex: index,
     });
     setCurrentUserIndex(index);
